@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Sticky footer &middot; Twitter Bootstrap</title>
+    <title><%=title%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -117,12 +117,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="#">Project name</a>
+                <a class="brand" href="#"><%=title%></a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li class="active"><a href="#">随便看看直播</a></li>
+                        <li><a href="#about">登录我的账号</a></li>
+                        <li><a href="#contact">联系我们</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -132,13 +132,13 @@
     <!-- Begin page content -->
     <div class="container">
         <form class="form-signin">
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <input type="text" class="input-block-level" placeholder="Email address">
-            <input type="password" class="input-block-level" placeholder="Password">
+            <h2 class="form-signin-heading">&nbsp;&nbsp;登录</h2>
+            <input type="text" class="input-block-level" placeholder="邮箱/账号/手机号">
+            <input type="password" class="input-block-level" placeholder="密码">
             <label class="checkbox">
-                <input type="checkbox" value="remember-me"> Remember me
+                <input type="checkbox" value="remember-me"> 保存用户名密码
             </label>
-            <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+            <button class="btn btn-large btn-primary" type="submit">登录</button>
         </form>
 
     </div>
