@@ -122,10 +122,10 @@
                 <a class="brand" href="#"><%=title%></a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="#">随便看看直播</a></li>
-                        <li><a href="#about">登录我的账号</a></li>
-                        <li><a href="#register">新用户注册</a></li>
-                        <li><a href="#contact">联系我们</a></li>
+                        <li><a href="#" onClick="toggleMenu('0')">随便看看直播</a></li>
+                        <li><a href="#register" onClick="toggleMenu('1')">新用户注册</a></li>
+                        <li><a href="#contact" onClick="toggleMenu('2')">联系我们</a></li>
+                        <li><a href="#login" onClick="toggleMenu('3')">登录我的账号</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -133,20 +133,39 @@
     </div>
 
     <!-- Begin page content -->
-    <div class="container">
-        <form class="form-signin">
-            <h3 class="form-signin-heading">&nbsp;&nbsp;用户登录</h3>
-            <input type="text" class="input-block-level" placeholder="邮箱/账号/手机号">
-            <input type="password" class="input-block-level" placeholder="密码">
-            <label class="checkbox" style="font-size:16px">
-                <input type="checkbox" value="remember-me"> 保存用户名密码
-            </label>
-            <button class="btn btn-large btn-success" type="submit"><i class="icon-ok icon-white" style="margin-left:-10px"></i>&nbsp;&nbsp;登录</button>
-        </form>
+    
 
+    <div class="container" id="live">
+        <div style="height:100%;padding-top:40px;padding-bottom:60x">
+            123123123123
+        </div>
     </div>
 
-    <div id="push"></div>
+    <div class="container" id="regi" style="display:none">
+        <form class="form-signin">
+            <h3 class="form-signin-heading">&nbsp;&nbsp;用户注册</h3>
+            <input id="register_username" type="text" class="input-block-level" placeholder="账号">
+            <input id="register_password" type="password" class="input-block-level" placeholder="密码">
+            <button onClick="register()" class="btn btn-large btn-success" type="submit"><i class="icon-ok icon-white" style="margin-left:-10px"></i>&nbsp;&nbsp;注册</button>
+        </form>
+    </div>
+
+    <div class="container" id="cont" style="display:none">
+        联系方式
+    </div>
+
+
+    <div class="container" id="login" style="display:none">
+        <form class="form-signin">
+            <h3 class="form-signin-heading">&nbsp;&nbsp;用户登录</h3>
+            <input id="username" type="text" class="input-block-level" placeholder="邮箱/账号/手机号">
+            <input id="password" type="password" class="input-block-level" placeholder="密码">
+            <label class="checkbox" style="font-size:16px">
+                <input type="checkbox" value="remember-me"> 记住我
+            </label>
+            <button onClick="login()" class="btn btn-large btn-success" type="submit"><i class="icon-ok icon-white" style="margin-left:-10px"></i>&nbsp;&nbsp;登录</button>
+        </form>
+    </div>
 </div>
 
 <div id="footer">
@@ -154,6 +173,8 @@
         <p class="muted credit" style="color:#000000">PRIVATE直播&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://martinbean.co.uk" style="color:#333333">Louis.L</a></p>
     </div>
 </div>
+
+
 
 
 <!-- Le javascript
@@ -172,6 +193,92 @@
 <script src="/assets/js/bootstrap-collapse.js"></script>
 <script src="/assets/js/bootstrap-carousel.js"></script>
 <script src="/assets/js/bootstrap-typeahead.js"></script>
+
+<script type="text/javascript">
+function toggleMenu(obj){
+    if(obj == '0'){
+        $("#login").hide();
+        $("#live").show(); 
+        $("#regi").hide();
+        $("#cont").hide();
+    }
+    else if(obj == '1'){
+        $("#login").hide();
+        $("#live").hide();
+        $("#regi").show();
+        $("#cont").hide();
+    }
+    else if(obj == '2'){
+        $("#login").hide();
+        $("#live").hide();
+        $("#regi").hide();
+        $("#cont").show();
+    }else if(obj == '3'){
+        $("#login").show();
+        $("#live").hide();
+        $("#regi").hide();
+        $("#cont").hide();
+    }
+}
+
+
+function login(){
+    $.ajax({
+            //提交数据的类型 POST GET
+            type:"POST",
+            //提交的网址
+            url:"/user/login",
+            //提交的数据
+            data:{username:$("#username").val(),password:$("#password").val()},
+            //返回数据的格式
+            datatype: "json",
+            //"xml", "html", "script", "json", "jsonp", "text".  
+            success:function(data){
+                if(data.result === 'success'){
+                    alert("登录成功");
+                }
+                else if(data.result === 'empty'){
+                    alert("用户名或密码错误");
+                }            
+            },
+            //调用出错执行的函数
+            error: function(){
+                alert("系统错误，请稍后重试");
+            }         
+        });
+}
+
+
+function register(){
+    $.ajax({
+            //提交数据的类型 POST GET
+            type:"POST",
+            //提交的网址
+            url:"/user/register",
+            //提交的数据
+            data:{
+                username:$("#register_username").val(),
+                password:$("#register_password").val()
+            },
+            //返回数据的格式
+            datatype: "json",
+            //"xml", "html", "script", "json", "jsonp", "text".  
+            success:function(data){
+                if(data.result === 'success'){
+                    alert("注册成功");
+                }
+                else if(data.result === 'exist'){
+                    alert("用户已存在");
+                }            
+            },
+            //调用出错执行的函数
+            error: function(){
+                alert("系统错误，请稍后重试");
+            }         
+        });
+}
+
+</script>
 
 </body>
 </html>

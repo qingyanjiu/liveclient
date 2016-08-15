@@ -15,6 +15,7 @@
     "serve-favicon": "~2.3.0",
     "connect-mongo": ">= 0.1.7",
     "express-session":"latest",
-    "mysql":"latest"
+    "mysql":"latest",
+    "md5":"latest"
   }
 }

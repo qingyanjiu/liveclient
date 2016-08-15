@@ -1,0 +1,16 @@
+var constants = {
+  USER_STATUS_INUSE:"0",
+  USER_STATUS_STOPPED:"1",
+  USER_STATUS_BANNED:"2",
+
+  STREAM_LIVEING:"0",
+  STREAM_RESTING:"1",
+
+  GENDER_MALE:"0",
+  GENDER_FEMALE:"1",
+
+  TRUENAME_CERTED:"0",
+  TRUENAME_UNCERTED:"1",
+};
+
+module.exports = constants;
