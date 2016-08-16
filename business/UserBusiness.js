@@ -15,7 +15,7 @@ module.exports = {
   register: function (param,callback) {
     //先检查用户名是否已有人使用
     UserDao.checkName(param,function(err,result){
-      var ret;
+      var ret = {};
       param.id = guid.create();
       param.password = md5(param.password);
       param.register_date = dateTime;
@@ -34,9 +34,9 @@ module.exports = {
               console.error("UserBusiness--regist--addUser--error");
               throw err;
             }
-            ret = {"result":"success"};
-            callback(err,ret);
           });
+          ret = {"result":"success"};
+          callback(err,ret);
         }
         //如果已经被注册
         else{
