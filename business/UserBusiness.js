@@ -1,3 +1,5 @@
+'use strict';
+
 var UserDao = require('../dao/UserDao');
 var guid = require('../services/guid');
 var Date = require('../services/MyDate');

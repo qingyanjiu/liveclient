@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var userBusiness = require('../business/UserBusiness');
@@ -30,6 +32,7 @@ router.post('/login', function(req, res, next) {
 router.post('/register', function(req, res, next) {
 	var param = req.body;
   	userBusiness.register(param, (err,data)=>{
+  	    console.log(err+'-------'+JSON.stringify(data));
     if(err){
       console.error("UserRouter--post--register--error");
       throw err;
