@@ -17,7 +17,7 @@ module.exports = {
       connection.query(userSqlMapping.checkName, [param.username], function(err, result) {
         if(err){
           console.error("checkName--"+myDate.toLocaleString()+"---"+err);
-          throw err;
+          callback(err,{});
         }
         // 释放连接 
         connection.release();
@@ -37,7 +37,7 @@ module.exports = {
       // 建立连接，向表中插入值
       connection.query(userSqlMapping.insert, 
         [
-        param.id, 
+        param.id,
         param.username,
         param.password,
         param.gender,
@@ -52,11 +52,7 @@ module.exports = {
         ], function(err, result) {
         if(err){
           console.error(myDate.toLocaleString()+"---"+err);
-          return;
-        }
-        if(err){
-          console.error("userRegister--"+myDate.toLocaleString()+"---"+err);
-          throw err;
+          callback(err,{});;
         }
         // 释放连接 
         connection.release();
@@ -85,11 +81,7 @@ module.exports = {
         ], function(err, result) {
         if(err){
           console.error(myDate.toLocaleString()+"---"+err);
-          return;
-        }
-        if(err){
-          console.error("userLogin--"+myDate.toLocaleString()+"---"+err);
-          throw err;
+          callback(err,{});
         }
         // 释放连接 
         connection.release();

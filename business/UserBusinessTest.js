@@ -6,7 +6,7 @@ var constants = require('../services/constants');
 
 // -------------------------------------------------userRegisterTest
 		    var param = {};
-        param.username = "test";
+        param.username = "loli";
         param.password = "111111";
         param.gender = constants.GENDER_MALE;
         param.nick = "testnick";

@@ -125,7 +125,7 @@
                         <li><a href="#" onClick="toggleMenu('0')">随便看看直播</a></li>
                         <li><a href="#register" onClick="toggleMenu('1')">新用户注册</a></li>
                         <li><a href="#contact" onClick="toggleMenu('2')">联系我们</a></li>
-                        <li><a href="#login" onClick="toggleMenu('3')">登录我的账号</a></li>
+                        <li id="userTip"><a href="#login" onClick="toggleMenu('3')">登录我的账号</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -232,19 +232,19 @@ function login(){
             data:{username:$("#username").val(),password:$("#password").val()},
             //返回数据的格式
             datatype: "json",
-            //"xml", "html", "script", "json", "jsonp", "text".  
+            //"xml", "html", "script", "json", "jsonp", "text".
             success:function(data){
                 if(data.result === 'success'){
                     alert("登录成功");
                 }
                 else if(data.result === 'empty'){
                     alert("用户名或密码错误");
-                }            
+                }
             },
             //调用出错执行的函数
             error: function(){
                 alert("系统错误，请稍后重试");
-            }         
+            }
         });
 }
 
@@ -262,7 +262,6 @@ function register(){
             },
             //返回数据的格式
             datatype: "json",
-            //"xml", "html", "script", "json", "jsonp", "text".  
             success:function(data){
                 if(data.result === 'success'){
                     alert("注册成功");
@@ -272,7 +271,7 @@ function register(){
                 }            
             },
             //调用出错执行的函数
-            error: function(){
+            error: function(err){
                 alert("系统错误，请稍后重试");
             }         
         });

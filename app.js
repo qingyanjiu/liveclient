@@ -90,7 +90,7 @@ app.use(function (req, res, next) {
     // 如果存在则通过，否则跳转到首页
     //首页、登录、注册请求，不会被过滤
     var url = req.originalUrl;
-    if (url != "/" && url != "/user/login" && url != "/user/register" && !req.session.user_id) {
+    if (url != "/" && url != "/user/login" && url != "/user/register" && !req.session.userid) {
       return res.redirect("/");
     }
   }

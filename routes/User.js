@@ -12,8 +12,15 @@ router.post('/login', function(req, res, next) {
     if(data){
       if(data.length === 0)
       	res.json({result:'empty'});
-      else if(data.result === "success")
-        res.json({result:'success'});
+      else {
+          //用户session写入
+          req.session.username = data[0].username;
+          req.session.userid = data[0].id;
+          //同步到sessionstore里
+          req.session.save();
+          console.log(req.session.username + "----" + req.session.userid + "-------" + param.type);
+          res.json({result: 'success'});
+      }
     }
   });
 });
@@ -28,10 +35,10 @@ router.post('/register', function(req, res, next) {
       throw err;
     }
     if(data){
-        if(data.result === "exist")
-      	res.json({result:'exist'});
-      else if(data.result === "success")
-        res.json({result:'success'});
+      if(data.result === "success")
+        res.json({result: 'success'});
+      else if(data.result === "exist")
+        res.json({result: 'exist'});
     }
   });
 });

@@ -1,7 +1,7 @@
 // MySQL数据库联接配置
 module.exports = {
   mysql: {
-    host: '192.168.99.101', 
+    host: '192.168.99.100',
     user: 'root',
     password: '123',
     database:'livestream', 

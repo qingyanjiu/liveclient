@@ -24,15 +24,21 @@ module.exports = {
 
       if(err){
         console.error("UserBusiness--regist--checkName--error");
-        throw err;
+        callback(err,{});
         }
       if(result){
         //如果没有已注册的同名用户,则注册用户
         if(result[0].count === 0){
-          UserDao.addUser(param,function(err,res){
-            if(err){
+
+          // if(param.username.length>20) {
+          //   console.log("名字太长，无法注册");
+          //   return callback(err,{"result":"tooLongName"});
+          // }
+
+          UserDao.addUser(param,function(er,res){
+            if(er){
               console.error("UserBusiness--regist--addUser--error");
-              throw err;
+              callback(er,{});
             }
           });
           ret = {"result":"success"};
@@ -43,7 +49,6 @@ module.exports = {
           ret = {"result":"exist"};
           callback(err,ret);
         }
-
       }
     });
   },
