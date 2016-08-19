@@ -45,9 +45,10 @@ var sessionStore = new session.MemoryStore({reapInterval: 60000 * 10});
 
 app.use(session({
   secret: 'alaien', // 建议使用 128 个字符的随机字符串
+  name:'alaien_session',
   store: sessionStore,
-  cookie: { maxAge: 60 * 1000 * 10 * 2 },
-  resave: true,
+  cookie: { maxAge: 60 * 1000 * 30 },
+  resave: false,
   saveUninitialized: true
 }));
 //写入store变量，后台可以通过app。get('store')获取

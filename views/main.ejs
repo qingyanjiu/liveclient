@@ -21,35 +21,6 @@
             /* The html and body elements cannot have any padding or margin. */
         }
 
-        /* Wrapper for page content to push down footer */
-        #wrap {
-            min-height: 100%;
-            height: auto !important;
-            height: 100%;
-            /* Negative indent footer by it's height */
-            margin: 0 auto -60px;
-        }
-
-        /* Set the fixed height of the footer here */
-        #push,
-        #footer {
-            height: 60px;
-        }
-
-        #footer {
-            background-color: rgba(235, 235, 235, 0.6);
-        }
-
-        /* Lastly, apply responsive CSS fixes as necessary */
-        @media (max-width: 767px) {
-            #footer {
-                margin-left: -20px;
-                margin-right: -20px;
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-        }
-
         /* Custom page CSS
         -------------------------------------------------- */
         /* Not required for template or sticky footer method. */
@@ -110,12 +81,11 @@
 
 
 <!-- Part 1: Wrap all page content here -->
-<div id="wrap" style="background-image:url('/assets/img/back.jpg');background-size:'contain';">
+<div style="background:#777777;height:inherit">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -125,8 +95,13 @@
                     <ul class="nav">
                         <li><a href="#" onClick="toggleMenu('0')">直播列表</a></li>
                         <li><a href="#register" onClick="toggleMenu('1')">新用户注册</a></li>
-                        <li><a href="#contact" onClick="toggleMenu('2')">联系我们</a></li>
-                        <li id="userTip"><a href="#login" onClick="toggleMenu('3')">登录我的账号</a></li>
+                        <% if(userid == "0"){ %>
+                        <li><a href="#login" onClick="toggleMenu('3')">登录我的账号</a></li>
+                        <% }else{ %>
+                        <li><a href="#usercenter" onClick=""><img src="/assets/img/head.jpg"
+                                                                  style="height:20px;width:20px;border-radius: 10px"/>&nbsp;<%= username %>
+                            </a></li>
+                        <% } %>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -135,19 +110,42 @@
 
     <!-- Begin page content -->
 
+    <div class="container" id="steamlist" style="height:inherit">
+        <div style="position: absolute;left: 0px;height:inherit">
+            <ul class="thumbnails"
+                style="width:360px;height:inherit;padding-left:4px;float: left;position: relative;padding-top:40px;background:#777777;overflow-y: auto">
+                <li class="span3">
+                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:10px;margin-bottom:10px">
+                        <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
+                        </div>
+                        <p style="padding:10px;font-size:16px">主播:XXX</p>
+                    </div>
 
-    <div class="container" id="live" >
-        <div style="position: absolute;left: 50%;height:800px">
-            <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:60px">
-                <script type="text/javascript"
-                        src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%=streamUrl%>/<%=streamName%>/<%=streamCode%>&autostart=true&buffer=5
-                        &lang=zh_CN
-                        &logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png
-                        &poster=/assets/img/liveback.jpg
-                        &title=LiveVideo
-                        &skin=liveWhite">
-                </script>
-            </div>
+                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:20px">
+                        <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
+                        </div>
+                        <p style="padding:10px;font-size:16px">主播:XXX</p>
+                    </div>
+
+                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:20px">
+                        <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
+                        </div>
+                        <p style="padding:10px;font-size:16px">主播:XXX</p>
+                    </div>
+
+                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:20px">
+                        <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
+                        </div>
+                        <p style="padding:10px;font-size:16px">主播:XXX</p>
+                    </div>
+
+                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:20px">
+                        <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
+                        </div>
+                        <p style="padding:10px;font-size:16px">主播:XXX</p>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -182,13 +180,6 @@
     </div>
 </div>
 
-<div id="footer">
-    <div class="container">
-        <p class="muted credit" style="color:#000000">PRIVATE直播&nbsp;&nbsp;&nbsp;&nbsp; <a
-                    href="http://martinbean.co.uk" style="color:#333333">Louis.L</a></p>
-    </div>
-</div>
-
 
 <!-- Le javascript
 ================================================== -->
@@ -211,85 +202,21 @@
     function toggleMenu(obj) {
         if (obj == '0') {
             $("#login").hide();
-            $("#live").show();
+            $("#steamlist").show();
             $("#regi").hide();
-            $("#cont").hide();
         }
         else if (obj == '1') {
             $("#login").hide();
-            $("#live").hide();
+            $("#steamlist").hide();
             $("#regi").show();
-            $("#cont").hide();
         }
-        else if (obj == '2') {
-            $("#login").hide();
-            $("#live").hide();
-            $("#regi").hide();
-            $("#cont").show();
-        } else if (obj == '3') {
+        else if (obj == '3') {
             $("#login").show();
-            $("#live").hide();
+            $("#steamlist").hide();
             $("#regi").hide();
-            $("#cont").hide();
         }
     }
 
-
-    function login() {
-        $.ajax({
-            //提交数据的类型 POST GET
-            type: "POST",
-            //提交的网址
-            url: "/user/login",
-            //提交的数据
-            data: {username: $("#username").val(), password: $("#password").val()},
-            //返回数据的格式
-            datatype: "json",
-            //"xml", "html", "script", "json", "jsonp", "text".
-            success: function (data) {
-                if (data.result === 'success') {
-//                    alert("登录成功");
-                    document.location.href = "/main";
-                }
-                else if (data.result === 'empty') {
-                    alert("用户名或密码错误");
-                }
-            },
-            //调用出错执行的函数
-            error: function () {
-                alert("系统错误，请稍后重试");
-            }
-        });
-    }
-
-
-    function register() {
-        $.ajax({
-            //提交数据的类型 POST GET
-            type: "POST",
-            //提交的网址
-            url: "/user/register",
-            //提交的数据
-            data: {
-                username: $("#register_username").val(),
-                password: $("#register_password").val()
-            },
-            //返回数据的格式
-            datatype: "json",
-            success: function (data) {
-                if (data.result === 'success') {
-                    alert("注册成功");
-                }
-                else if (data.result === 'exist') {
-                    alert("用户已存在");
-                }
-            },
-            //调用出错执行的函数
-            error: function (err) {
-                alert("系统错误，请稍后重试");
-            }
-        });
-    }
 
 </script>
 

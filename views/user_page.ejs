@@ -137,18 +137,7 @@
 
 
     <div class="container" id="live" >
-        <div style="position: absolute;left: 50%;height:800px">
-            <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:60px">
-                <script type="text/javascript"
-                        src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%=streamUrl%>/<%=streamName%>/<%=streamCode%>&autostart=true&buffer=5
-                        &lang=zh_CN
-                        &logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png
-                        &poster=/assets/img/liveback.jpg
-                        &title=LiveVideo
-                        &skin=liveWhite">
-                </script>
-            </div>
-        </div>
+
     </div>
 
     <div class="container" id="regi" style="display:none">
@@ -248,8 +237,7 @@
             //"xml", "html", "script", "json", "jsonp", "text".
             success: function (data) {
                 if (data.result === 'success') {
-//                    alert("登录成功");
-                    document.location.href = "/main";
+                    alert("登录成功");
                 }
                 else if (data.result === 'empty') {
                     alert("用户名或密码错误");
@@ -262,34 +250,6 @@
         });
     }
 
-
-    function register() {
-        $.ajax({
-            //提交数据的类型 POST GET
-            type: "POST",
-            //提交的网址
-            url: "/user/register",
-            //提交的数据
-            data: {
-                username: $("#register_username").val(),
-                password: $("#register_password").val()
-            },
-            //返回数据的格式
-            datatype: "json",
-            success: function (data) {
-                if (data.result === 'success') {
-                    alert("注册成功");
-                }
-                else if (data.result === 'exist') {
-                    alert("用户已存在");
-                }
-            },
-            //调用出错执行的函数
-            error: function (err) {
-                alert("系统错误，请稍后重试");
-            }
-        });
-    }
 
 </script>
 
