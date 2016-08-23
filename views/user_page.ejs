@@ -108,6 +108,23 @@
 
 <body style="overflow: hidden">
 
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
+        <h4 id="myModalLabel">开始直播!</h4>
+    </div>
+    <div class="modal-body">
+        <p style="font-size:18px">您的直播推流码如下：</p>
+        <p id="streamcode" style="color:red">
+            <% if(streamcode){ %>
+            <%= streamcode %>
+            <% } %>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">我知道了</button>
+    </div>
+</div>
 
 <!-- Part 1: Wrap all page content here -->
 <div id="wrap" style="background-image:url('/assets/img/back.jpg');background-size:'contain';">
@@ -117,16 +134,15 @@
                 <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
                 </button>
                 <a class="brand" href="#"><%= title %></a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <li><a href="#" onClick="toggleMenu('0')">直播列表</a></li>
-                        <li><a href="#register" onClick="toggleMenu('1')">新用户注册</a></li>
-                        <li><a href="#contact" onClick="toggleMenu('2')">联系我们</a></li>
-                        <li id="userTip"><a href="#login" onClick="toggleMenu('3')">登录我的账号</a></li>
+                        <li><a href="#myroom" onClick="toggleMenu('1')">我的直播间</a></li>
+                        <li><a href="#usercenter" onClick=""><img src="/assets/img/head.jpg"
+                                                                  style="height:20px;width:20px;border-radius: 10px"/>&nbsp;<%= username %>
+                            </a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -136,46 +152,44 @@
     <!-- Begin page content -->
 
 
-    <div class="container" id="live" >
-
+    <div class="container" id="myroom">
+        <div style="width:100%;padding-top:60px;text-align:center">
+            <p>
+                <% if(streamcode){ %>
+                <p style="font-size:14px;color:#FFFFFF">已开启直播,推流码：&nbsp;&nbsp;<%=streamcode%></p>
+                <button id="startLiveButton" class="btn btn-large btn-block btn-danger" type="button"
+                        style="width:50%;margin-left:25%" onclick="endLive('<%= user_id %>')">关闭直播
+                </button>
+                <% }else{ %>
+                <button id="startLiveButton" class="btn btn-large btn-block btn-success" type="button"
+                        style="width:50%;margin-left:25%" onclick="startLive('<%= user_id %>')">开启直播
+                </button>
+                <% } %>
+            </p>
+        </div>
+        <div style="position: absolute;left: 50%;height:800px">
+            <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:20px">
+                <script type="text/javascript"
+                        src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamcode %>&autostart=true&buffer=5
+                        &lang=zh_CN
+                        &logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png
+                        &poster=/assets/img/liveback.jpg
+                        &title=LiveVideo
+                        &skin=liveWhite">
+                </script>
+            </div>
+        </div>
     </div>
 
-    <div class="container" id="regi" style="display:none">
-        <form class="form-signin">
-            <h3 class="form-signin-heading">&nbsp;&nbsp;用户注册</h3>
-            <input id="register_username" type="text" class="input-block-level" placeholder="账号">
-            <input id="register_password" type="password" class="input-block-level" placeholder="密码">
-            <button onClick="register()" class="btn btn-large btn-success" type="submit"><i class="icon-ok icon-white"
-                                                                                            style="margin-left:-10px"></i>&nbsp;&nbsp;注册
-            </button>
-        </form>
+
+    <div class="container" id="list" style="display:none">
+        <div style="position: absolute;left: 50%;height:800px">
+            <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:60px">
+                listlist
+            </div>
+        </div>
     </div>
 
-    <div class="container" id="cont" style="display:none">
-        联系方式
-    </div>
-
-
-    <div class="container" id="login" style="display:none">
-        <form class="form-signin">
-            <h3 class="form-signin-heading">&nbsp;&nbsp;用户登录</h3>
-            <input id="username" type="text" class="input-block-level" placeholder="邮箱/账号/手机号">
-            <input id="password" type="password" class="input-block-level" placeholder="密码">
-            <label class="checkbox" style="font-size:16px">
-                <input type="checkbox" value="remember-me"> 记住我
-            </label>
-            <button onClick="login()" class="btn btn-large btn-success" type="submit"><i class="icon-ok icon-white"
-                                                                                         style="margin-left:-10px"></i>&nbsp;&nbsp;登录
-            </button>
-        </form>
-    </div>
-</div>
-
-<div id="footer">
-    <div class="container">
-        <p class="muted credit" style="color:#000000">PRIVATE直播&nbsp;&nbsp;&nbsp;&nbsp; <a
-                    href="http://martinbean.co.uk" style="color:#333333">Louis.L</a></p>
-    </div>
 </div>
 
 
@@ -199,57 +213,45 @@
 <script type="text/javascript">
     function toggleMenu(obj) {
         if (obj == '0') {
-            $("#login").hide();
-            $("#live").show();
-            $("#regi").hide();
-            $("#cont").hide();
+            $("#myroom").show();
+            $("#list").hide();
         }
         else if (obj == '1') {
-            $("#login").hide();
-            $("#live").hide();
-            $("#regi").show();
-            $("#cont").hide();
-        }
-        else if (obj == '2') {
-            $("#login").hide();
-            $("#live").hide();
-            $("#regi").hide();
-            $("#cont").show();
-        } else if (obj == '3') {
-            $("#login").show();
-            $("#live").hide();
-            $("#regi").hide();
-            $("#cont").hide();
+            $("#myroom").hide();
+            $("#list").show();
         }
     }
 
-
-    function login() {
+    function startLive(id) {
         $.ajax({
             //提交数据的类型 POST GET
             type: "POST",
             //提交的网址
-            url: "/user/login",
+            url: "/live/start",
             //提交的数据
-            data: {username: $("#username").val(), password: $("#password").val()},
+            data: {
+                user_id: id
+            },
             //返回数据的格式
             datatype: "json",
-            //"xml", "html", "script", "json", "jsonp", "text".
             success: function (data) {
-                if (data.result === 'success') {
-                    alert("登录成功");
-                }
-                else if (data.result === 'empty') {
-                    alert("用户名或密码错误");
-                }
+                $("#startLiveButton").removeClass("btn-success");
+                $("#startLiveButton").addClass("btn-danger");
+                $("#startLiveButton").text("关闭直播");
+                $("#startLiveButton").attr("onclick", "endLive('" + id + "')");
+                $("#streamcode").text(data.result);
+                $('#myModal').modal('show');
             },
             //调用出错执行的函数
-            error: function () {
+            error: function (err) {
                 alert("系统错误，请稍后重试");
             }
         });
     }
 
+    function endLive(id) {
+        alert("确定要关闭直播?");
+    }
 
 </script>
 

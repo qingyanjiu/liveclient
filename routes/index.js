@@ -11,8 +11,9 @@ router.get('/main', function(req, res, next) {
   var loginState = "0";
   if(req.session.userid)
       loginState = req.session.userid;
-  var json = { "title": 'PRIVATE主页面',"userid":loginState,"username":req.session.username};
-  res.render('main', json);
+  var json = { "title": 'PRIVATE主页面',"userid":loginState,"username":req.session.username,
+    "streamUrl":"10.204.21.34","streamName":"live","streamCode":""};
+  res.render('user_page', json);
 });
 
 module.exports = router;

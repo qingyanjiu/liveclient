@@ -1,4 +1,7 @@
 var constants = {
+  SERVER_URL:"10.204.21.34",
+  LIVE_STREAM_NAME:"live",
+
   USER_STATUS_INUSE:"0",
   USER_STATUS_STOPPED:"1",
   USER_STATUS_BANNED:"2",
@@ -11,6 +14,9 @@ var constants = {
 
   TRUENAME_CERTED:"0",
   TRUENAME_UNCERTED:"1",
+
+  LIVE_STATUS_STARTED:"0",
+  LIVE_STATUS_ENDED:"1",
 };
 
 module.exports = constants;
