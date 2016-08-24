@@ -1,4 +1,6 @@
 var constants = {
+  TITLE:"木木直播",
+
   SERVER_URL:"10.204.21.34",
   LIVE_STREAM_NAME:"live",
 
