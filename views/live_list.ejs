@@ -93,14 +93,14 @@
                 <a class="brand" href="#"><%= title %></a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li><a href="#" onClick="toggleMenu('0')">直播列表</a></li>
+                        <li><a href="#" onClick="toggleMenu('0')">首页</a></li>
                         <li><a href="#register" onClick="toggleMenu('1')">新用户注册</a></li>
-                        <% if(userid == "0"){ %>
-                        <li><a href="#login" onClick="toggleMenu('3')">登录我的账号</a></li>
-                        <% }else{ %>
+                        <% if(user_id){ %>
                         <li><a href="#usercenter" onClick=""><img src="/assets/img/head.jpg"
                                                                   style="height:20px;width:20px;border-radius: 10px"/>&nbsp;<%= username %>
                             </a></li>
+                        <% }else{ %>
+                        <li><a href="#login" onClick="toggleMenu('2')">登录我的账号</a></li>
                         <% } %>
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -111,41 +111,24 @@
     <!-- Begin page content -->
 
     <div class="container" id="steamlist" style="height:inherit">
-        <div style="position: absolute;left: 0px;height:inherit">
+        <div style="position: absolute;left: 0px;height:inherit;z-index:99">
             <ul class="thumbnails"
-                style="width:360px;height:inherit;padding-left:4px;float: left;position: relative;padding-top:40px;background:#777777;overflow-y: auto">
+                style="width:360px;height:inherit;padding-left:4px;float: left;position: relative;padding-top:40px;background:#666666;overflow-y: auto">
                 <li class="span3">
-                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:10px;margin-bottom:10px">
+                    <% for(i = 0;i < lives.length;i++){ %>
+                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:10px;margin-bottom:10px"
+                         onclick="watchLive('<%= lives[i].streamcode %>')">
                         <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
                         </div>
-                        <p style="padding:10px;font-size:16px">主播:XXX</p>
+                        <p style="padding:10px;font-size:16px">主播:<%= lives[i].username %>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<%= lives[i].live_name %></p>
                     </div>
-
-                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:20px">
-                        <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
-                        </div>
-                        <p style="padding:10px;font-size:16px">主播:XXX</p>
-                    </div>
-
-                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:20px">
-                        <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
-                        </div>
-                        <p style="padding:10px;font-size:16px">主播:XXX</p>
-                    </div>
-
-                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:20px">
-                        <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
-                        </div>
-                        <p style="padding:10px;font-size:16px">主播:XXX</p>
-                    </div>
-
-                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:20px">
-                        <div style="width: 320px; height: 180px;background-image:url(/assets/img/liveback.jpg);background-size:contain">
-                        </div>
-                        <p style="padding:10px;font-size:16px">主播:XXX</p>
-                    </div>
+                    <% } %>
                 </li>
             </ul>
+        </div>
+        <div id="cont">
+
         </div>
     </div>
 
@@ -158,10 +141,6 @@
                                                                                             style="margin-left:-10px"></i>&nbsp;&nbsp;注册
             </button>
         </form>
-    </div>
-
-    <div class="container" id="cont" style="display:none">
-        联系方式
     </div>
 
 
@@ -201,24 +180,94 @@
 <script type="text/javascript">
     function toggleMenu(obj) {
         if (obj == '0') {
-            $("#login").hide();
-            $("#steamlist").show();
-            $("#regi").hide();
+            document.location = "/";
         }
         else if (obj == '1') {
             $("#login").hide();
             $("#steamlist").hide();
             $("#regi").show();
         }
-        else if (obj == '3') {
+        else if (obj == '2') {
             $("#login").show();
             $("#steamlist").hide();
             $("#regi").hide();
         }
     }
 
+    function watchLive(streamcode) {
+        $("#cont").html(
+                '<div style="position: absolute;right: 40%;height:800px;z-index:0">' +
+                '<div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;left: 50%;padding-top:60px">' +
+                '<script type="text/javascript"' +
+                'src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%=streamUrl%>/<%=streamName%>/'+streamcode+'&autostart=true&buffer=5' +
+                '&lang=zh_CN' +
+                '&logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png' +
+                '&poster=/assets/img/liveback.jpg' +
+                '&title=LiveVideo' +
+                '&skin=liveWhite"/>' +
+                '</div>' +
+                '</div>'
+        );
+    }
+
+    function login() {
+        $.ajax({
+            //提交数据的类型 POST GET
+            type: "POST",
+            //提交的网址
+            url: "/user/login",
+            //提交的数据
+            data: {username: $("#username").val(), password: $("#password").val()},
+            //返回数据的格式
+            datatype: "json",
+            //"xml", "html", "script", "json", "jsonp", "text".
+            success: function (data) {
+                if (data.result === 'success') {
+//                    alert("登录成功");
+                    document.location.href = "/live";
+                }
+                else if (data.result === 'empty') {
+                    alert("用户名或密码错误");
+                }
+            },
+            //调用出错执行的函数
+            error: function () {
+                alert("系统错误，请稍后重试");
+            }
+        });
+    }
+
+
+    function register() {
+        $.ajax({
+            //提交数据的类型 POST GET
+            type: "POST",
+            //提交的网址
+            url: "/user/register",
+            //提交的数据
+            data: {
+                username: $("#register_username").val(),
+                password: $("#register_password").val()
+            },
+            //返回数据的格式
+            datatype: "json",
+            success: function (data) {
+                if (data.result === 'success') {
+                    alert("注册成功");
+                }
+                else if (data.result === 'exist') {
+                    alert("用户已存在");
+                }
+            },
+            //调用出错执行的函数
+            error: function (err) {
+                alert("系统错误，请稍后重试");
+            }
+        });
+    }
+
 
 </script>
 
 </body>
-</html>
+< / html >

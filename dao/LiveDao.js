@@ -21,6 +21,7 @@ module.exports = {
                 param.end_time,
                 param.streamcode,
                 param.status,
+                param.live_name
             ], function (err, result) {
                 if (err) {
                     console.error("addLive--" + myDate.toLocaleString() + "---" + err);
@@ -71,14 +72,13 @@ module.exports = {
             // 建立连接，向表中插入值
             connection.query(liveSqlMapping.end,
                 [
-                    param.status,
                     param.end_time,
-                    param.user_id,
+                    param.status,
+                    param.streamcode,
                 ], function (err, result) {
                     if (err) {
                         console.error(myDate.toLocaleString() + "---" + err);
                         callback(err, {});
-                        ;
                     }
                     // 释放连接
                     connection.release();

@@ -156,13 +156,14 @@
         <div style="width:100%;padding-top:60px;text-align:center">
             <p>
                 <% if(streamcode){ %>
-                <p style="font-size:14px;color:#FFFFFF">已开启直播,推流码：&nbsp;&nbsp;<%=streamcode%></p>
+                <p id="codetip" style="font-size:14px;color:#FFFFFF">已开启直播,推流码：&nbsp;&nbsp;<span id="mycode"><%=streamcode%></span></p>
                 <button id="startLiveButton" class="btn btn-large btn-block btn-danger" type="button"
                         style="width:50%;margin-left:25%" onclick="endLive('<%= user_id %>')">关闭直播
                 </button>
                 <% }else{ %>
-                <button id="startLiveButton" class="btn btn-large btn-block btn-success" type="button"
-                        style="width:50%;margin-left:25%" onclick="startLive('<%= user_id %>')">开启直播
+                <input id="livename" type="text" style="width:360px;height:30px;margin:5px" placeholder="请输入直播间名称"/>
+                <button id="startLiveButton" class="btn btn-large btn-success" type="button"
+                        onclick="startLive('<%= user_id %>')">开启直播
                 </button>
                 <% } %>
             </p>
@@ -213,8 +214,7 @@
 <script type="text/javascript">
     function toggleMenu(obj) {
         if (obj == '0') {
-            $("#myroom").show();
-            $("#list").hide();
+            document.location = "/live/list";
         }
         else if (obj == '1') {
             $("#myroom").hide();
@@ -230,27 +230,64 @@
             url: "/live/start",
             //提交的数据
             data: {
-                user_id: id
+                user_id: id,
+                live_name: $("#livename").val()
             },
             //返回数据的格式
             datatype: "json",
             success: function (data) {
-                $("#startLiveButton").removeClass("btn-success");
-                $("#startLiveButton").addClass("btn-danger");
-                $("#startLiveButton").text("关闭直播");
-                $("#startLiveButton").attr("onclick", "endLive('" + id + "')");
-                $("#streamcode").text(data.result);
-                $('#myModal').modal('show');
+                if(data.error){
+                    alert(data.error);
+                }
+                else {
+                    $("#livename").remove();
+                    $("#startLiveButton").before('<p id="codetip" style="font-size:14px;color:#FFFFFF">已开启直播,推流码：&nbsp;&nbsp;<span id="mycode">'+data.result+'</span></p>');
+                    $("#startLiveButton").removeClass("btn-success");
+                    $("#startLiveButton").addClass("btn-danger");
+                    $("#startLiveButton").text("关闭直播");
+                    $("#startLiveButton").attr("onclick", "endLive('" + id + "')");
+                    $("#streamcode").text(data.result);
+                    $('#myModal').modal('show');
+                }
             },
             //调用出错执行的函数
             error: function (err) {
-                alert("系统错误，请稍后重试");
+                alert("系统错误，请稍后再试");
             }
         });
     }
 
     function endLive(id) {
         alert("确定要关闭直播?");
+        $.ajax({
+            //提交数据的类型 POST GET
+            type: "POST",
+            //提交的网址
+            url: "/live/end",
+            //提交的数据
+            data: {
+                streamcode: $("#mycode").text(),
+            },
+            //返回数据的格式
+            datatype: "json",
+            success: function (data) {
+                if(data.error){
+                    alert(data.error);
+                }
+                else if(data.result == "success"){
+                    $("#codetip").remove();
+                    $("#startLiveButton").removeClass("btn-danger");
+                    $("#startLiveButton").addClass("btn-success");
+                    $("#startLiveButton").text("开启直播");
+                    $("#startLiveButton").attr("onclick", "startLive('" + id + "')");
+                    $("#startLiveButton").before('<input id="livename" type="text" style="width:360px;height:30px;margin:5px" placeholder="请输入直播间名称"/>');
+                }
+            },
+            //调用出错执行的函数
+            error: function (err) {
+                alert("系统错误，请稍后再试");
+            }
+        });
     }
 
 </script>

@@ -31,9 +31,11 @@ module.exports = {
                         console.error("LiveBusiness--startLive--addLive--error");
                         callback(er, {});
                     }
+                    if(res) {
+                        ret = {"result": param.streamcode};
+                        callback(err, ret);
+                    }
                 });
-                ret = {"result":param.streamcode};
-                callback(err, ret);
             }
         });
     },
