@@ -7,7 +7,7 @@ var InitDatabase = require('../services/InitDatabase');
 router.get('/', function (req, res, next) {
     //先看看有没有初始化过数据库
     var connection = mysql.createConnection({
-        host: 'srs-db',
+        host: 'srsdb',
         user: 'root',
         password: '123'
     });
@@ -43,7 +43,7 @@ router.get('/', function (req, res, next) {
 router.get('/init', function (req, res, next) {
     //先看看有没有初始化过数据库
     var connection = mysql.createConnection({
-        host: 'srs-db',
+        host: 'srsdb',
         user: 'root',
         password: '123'
     });
@@ -77,7 +77,7 @@ router.get('/init', function (req, res, next) {
 router.post('/initDatabase', function (req, res, next) {
     //先看看有没有初始化过数据库
     var connection = mysql.createConnection({
-        host: 'srs-db',
+        host: 'srsdb',
         user: 'root',
         password: '123'
     });
