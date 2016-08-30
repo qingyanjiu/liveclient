@@ -253,7 +253,8 @@
                 }
             },
             //调用出错执行的函数
-            error: function () {
+            error: function (err) {
+                alert(JSON.stringify(err));
                 alert("系统错误，请稍后重试");
             }
         });
