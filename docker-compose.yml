@@ -1,0 +1,15 @@
+version: '2' 
+services:
+  srsdb:
+    image: index.alauda.cn/alaien/srs-db
+    ports: 
+      - "3306:3306"
+  
+  srswebclient:
+    depends_on:
+      - srsdb
+    image: index.alauda.cn/alaien/srs-web-client
+    links:
+      - srsdb
+    ports:
+      - "3000:3000"
