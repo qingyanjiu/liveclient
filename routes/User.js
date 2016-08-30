@@ -9,7 +9,8 @@ router.post('/login', function(req, res, next) {
   	userBusiness.login(param, (err,data)=>{
     if(err){
       console.error("UserRouter--post--login--error");
-      throw err;
+      // throw err;
+      res.json({result: 'error'});
     }
     if(data){
       if(data.length === 0)
@@ -32,10 +33,10 @@ router.post('/login', function(req, res, next) {
 router.post('/register', function(req, res, next) {
 	var param = req.body;
   	userBusiness.register(param, (err,data)=>{
-  	    console.log(err+'-------'+JSON.stringify(data));
     if(err){
       console.error("UserRouter--post--register--error");
-      throw err;
+      // throw err;
+        res.json({result: 'error'});
     }
     if(data){
       if(data.result === "success")
