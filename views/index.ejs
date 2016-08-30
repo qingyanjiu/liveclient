@@ -244,11 +244,11 @@
             datatype: "json",
             //"xml", "html", "script", "json", "jsonp", "text".
             success: function (data) {
-                if (data.result === 'success') {
+                if (data.result == 'success') {
 //                    alert("登录成功");
                     document.location.href = "/live";
                 }
-                else if (data.result === 'empty') {
+                else if (data.result == 'empty') {
                     alert("用户名或密码错误");
                 }
             },
@@ -274,15 +274,15 @@
             //返回数据的格式
             datatype: "json",
             success: function (data) {
-                if (data.result === 'success') {
+                if (data.result == 'success') {
                     alert("注册成功");
                 }
-                else if (data.result === 'exist') {
+                else if (data.result == 'exist') {
                     alert("用户已存在");
                 }
             },
             //调用出错执行的函数
-            error: function (err) {
+            error: function () {
                 alert("系统错误，请稍后重试");
             }
         });
