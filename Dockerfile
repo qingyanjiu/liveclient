@@ -24,7 +24,7 @@ RUN make
 
 RUN make install
 
-COPY n.conf /nginx-1.2.4/conf/nginx.conf
+COPY nginx.conf /nginx-1.2.4/conf/nginx.conf
 
 RUN chmod 777 /tmp
 
