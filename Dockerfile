@@ -8,4 +8,6 @@ RUN npm install
 
 RUN npm install -g supervisor
 
+EXPOSE 5000
+
 CMD ["supervisor","bin/www"]
