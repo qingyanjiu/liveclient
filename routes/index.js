@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var InitDatabase = require('../services/InitDatabase');
+var constants = require('../services/constants');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
     //先看看有没有初始化过数据库
     var connection = mysql.createConnection({
-        host: 'srsdb',
+        host: constants.DB_ALIA,
         user: 'root',
         password: '123'
     });
@@ -43,7 +44,7 @@ router.get('/', function (req, res, next) {
 router.get('/init', function (req, res, next) {
     //先看看有没有初始化过数据库
     var connection = mysql.createConnection({
-        host: 'srsdb',
+        host: constants.DB_ALIA,
         user: 'root',
         password: '123'
     });
@@ -77,7 +78,7 @@ router.get('/init', function (req, res, next) {
 router.post('/initDatabase', function (req, res, next) {
     //先看看有没有初始化过数据库
     var connection = mysql.createConnection({
-        host: 'srsdb',
+        host: constants.DB_ALIA,
         user: 'root',
         password: '123'
     });
@@ -102,7 +103,7 @@ router.post('/initDatabase', function (req, res, next) {
             else {
                 var json = {
                     "title": 'PRIVATE直播',
-                    "streamUrl": "10.204.21.34",
+                    "streamUrl": constants.SERVER_URL,
                     "streamName": "live",
                     "streamCode": "livestream"
                 }
