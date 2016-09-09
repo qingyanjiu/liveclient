@@ -28,7 +28,7 @@ router.get('/', function (req, res, next) {
             else {
                 var json = {
                     "title": 'PRIVATE直播',
-                    "streamUrl": "10.204.21.34",
+                    "streamUrl": constants.SERVER_URL,
                     "streamName": "live",
                     "streamCode": "livestream"
                 }
@@ -64,7 +64,7 @@ router.get('/init', function (req, res, next) {
             else {
                 var json = {
                     "title": 'PRIVATE直播',
-                    "streamUrl": "10.204.21.34",
+                    "streamUrl": constants.SERVER_URL,
                     "streamName": "live",
                     "streamCode": "livestream"
                 }
