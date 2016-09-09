@@ -1,4 +1,8 @@
 // MySQL数据库联接配置
+
+var constants = require('../services/constants');
+
+
 module.exports = {
   // mysql: {
   //   host: '192.168.99.100',
@@ -11,7 +15,7 @@ module.exports = {
   // }
 
     mysql: {
-        host: 'livedb',
+        host: constants.DB_ALIA,
         user: 'root',
         password: '123',
         database:'livestream',

@@ -1,9 +1,10 @@
 var mysql = require('mysql');
+var constants = require('./constants');
 
 module.exports = {
     initDatabase: function (param, callback) {
         var connection = mysql.createConnection({
-            host: 'srsdb',
+            host: constants.DB_ALIA,
             user: 'root',
             password: '123'
         });

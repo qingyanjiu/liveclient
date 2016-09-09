@@ -1,6 +1,8 @@
 var constants = {
   TITLE:"木木直播",
 
+  DB_ALIA:"livedb",
+
   SERVER_URL:"10.204.21.34",
   LIVE_STREAM_NAME:"live",
 
