@@ -11,7 +11,7 @@ module.exports = {
   // }
 
     mysql: {
-        host: 'srsdb',
+        host: 'livedb',
         user: 'root',
         password: '123',
         database:'livestream',
