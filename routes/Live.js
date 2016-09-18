@@ -21,11 +21,11 @@ router.get('/', function (req, res, next) {
             throw err;
         }
         if (data) {
-            if(data.length > 0){
+            if (data.length > 0) {
                 json.streamcode = data[0].streamcode;
                 res.render('user_page', json);
             }
-            else{
+            else {
                 res.render('user_page', json);
             }
         }
@@ -40,7 +40,7 @@ router.get('/list', function (req, res, next) {
         userid = req.session.userid;
     var json = {
         "title": 'PRIVATE主页面', "user_id": userid, "username": req.session.username,
-        "streamUrl": constants.SERVER_URL, "streamName": constants.LIVE_STREAM_NAME,"snapshotUrl":constants.PIC_URL
+        "streamUrl": constants.SERVER_URL, "streamName": constants.LIVE_STREAM_NAME, "snapshotUrl": constants.PIC_URL
     };
     //先查询当前用户是否有正在进行的直播，有的话返回直播推流码
     liveBusiness.queryAllLives(json, (err, data)=> {
@@ -49,11 +49,11 @@ router.get('/list', function (req, res, next) {
             throw err;
         }
         if (data) {
-            if(data.length > 0){
+            if (data.length > 0) {
                 json.lives = data;
                 res.render('live_list', json);
             }
-            else{
+            else {
                 json.lives = [];
                 res.render('live_list', json);
             }
@@ -70,7 +70,7 @@ router.post('/start', function (req, res, next) {
             console.error("LiveRouter--post--start--error");
             console.error(err);
             // throw err;
-            res.json({"error":"开启直播失败,请稍后再试"});
+            res.json({"error": "开启直播失败,请稍后再试"});
         }
         if (data) {
             res.json(data);
@@ -85,7 +85,7 @@ router.post('/end', function (req, res, next) {
         if (err) {
             console.error("LiveRouter--post--end--error");
             console.error(err);
-            res.json({"error":"关闭直播失败,请稍后再试"});
+            res.json({"error": "关闭直播失败,请稍后再试"});
             // throw err;
         }
         if (data) {
@@ -94,5 +94,38 @@ router.post('/end', function (req, res, next) {
         }
     });
 });
+
+
+//跳转到特定用户直播界面
+router.get('/:username', function (req, res, next) {
+    var param = req.body;
+    var username = req.params.username;
+    param.username = username;
+    console.log(req.params.username);
+    var userid;
+    if (req.session.userid)
+        userid = req.session.userid;
+    liveBusiness.getUserLive(param, (err, data)=> {
+        if (err) {
+            console.error("LiveRouter--get--:username--error");
+            console.error(err);
+            res.json({"error": "获取直播失败,请尝试刷新页面"});
+            // throw err;
+        }
+        if (data) {
+            if(data.length>0) {
+                var title = data[0].username+"的直播间";
+                data[0].title = title;
+                data[0].user_id = userid;
+                data[0].username = username;
+                data[0].streamUrl = constants.SERVER_URL;
+                data[0].streamName = constants.LIVE_STREAM_NAME;
+                data[0].streamCode = data[0].streamcode;
+                res.render('index', data[0]);
+            }
+        }
+    });
+});
+
 
 module.exports = router;

@@ -161,4 +161,29 @@ module.exports = {
         });
     },
 
+    //通过用户名获取当前直播
+    getLiveFromUsername: function (param, callback) {
+        db.pool.getConnection(function (err, connection) {
+            var myDate = new Date();
+            if (err) {
+                console.error(myDate.toLocaleString() + "---" + err);
+                return;
+            }
+            // 查询
+            connection.query(liveSqlMapping.getLiveFromName,
+                [
+                    param.username,
+                    param.status,
+                ], function (err, result) {
+                    if (err) {
+                        console.error(myDate.toLocaleString() + "---" + err);
+                        callback(err, {});
+                    }
+                    // 释放连接
+                    connection.release();
+                    callback(err, result);
+                });
+        });
+    },
+
 };

@@ -95,11 +95,25 @@ module.exports = {
 
     //查看我正在进行的直播
     queryMyCurrentLive: function (param, callback) {
-        //查询历史直播
         param.status = constants.LIVE_STATUS_STARTED;
         LiveDao.getMyCurrentLive(param, function (err, result) {
             if (err) {
                 console.error("LiveBusiness--queryMyCurrentLive--getMyCurrentLive--error");
+                callback(err, {});
+            }
+            if (result) {
+                callback(err, result);
+            }
+        });
+    },
+
+
+    //获取某个用户的直播信息
+    getUserLive: function (param, callback) {
+        param.status = constants.LIVE_STATUS_STARTED;
+        LiveDao.getLiveFromUsername(param, function (err, result) {
+            if (err) {
+                console.error("LiveBusiness--getUserLive--getUserLive--error");
                 callback(err, {});
             }
             if (result) {
