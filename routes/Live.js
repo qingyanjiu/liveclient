@@ -40,7 +40,7 @@ router.get('/list', function (req, res, next) {
         userid = req.session.userid;
     var json = {
         "title": 'PRIVATE主页面', "user_id": userid, "username": req.session.username,
-        "streamUrl": constants.SERVER_URL, "streamName": constants.LIVE_STREAM_NAME
+        "streamUrl": constants.SERVER_URL, "streamName": constants.LIVE_STREAM_NAME,"snapshotUrl":constants.PIC_URL
     };
     //先查询当前用户是否有正在进行的直播，有的话返回直播推流码
     liveBusiness.queryAllLives(json, (err, data)=> {

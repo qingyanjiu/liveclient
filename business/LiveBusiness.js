@@ -44,6 +44,7 @@ module.exports = {
     endLive: function (param, callback) {
         param.status = constants.LIVE_STATUS_ENDED;
         param.end_time = dateTime;
+        param.current_status = constants.LIVE_STATUS_STARTED;
         //先将之前的直播都置为无效
         LiveDao.endLive(param, function (err, result) {
             var ret = {};

@@ -48,6 +48,7 @@ module.exports = {
                     param.status,
                     param.end_time,
                     param.user_id,
+                    param.current_status,
                 ], function (err, result) {
                     if (err) {
                         console.error(myDate.toLocaleString() + "---" + err);

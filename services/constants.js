@@ -3,7 +3,9 @@ var constants = {
 
   DB_ALIA:"livedb",
 
-  SERVER_URL:"107.170.251.32",
+  PIC_URL:"http://108.61.182.153:8099/",
+
+  SERVER_URL:"108.61.182.153",
   LIVE_STREAM_NAME:"live",
 
   USER_STATUS_INUSE:"0",

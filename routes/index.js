@@ -1,8 +1,11 @@
+"use strict";
+
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var InitDatabase = require('../services/InitDatabase');
 var constants = require('../services/constants');
+var liveBusiness = require('../business/LiveBusiness');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -30,9 +33,26 @@ router.get('/', function (req, res, next) {
                     "title": 'PRIVATE直播',
                     "streamUrl": constants.SERVER_URL,
                     "streamName": "live",
-                    "streamCode": "livestream"
+                    "streamCode": ""
                 }
-                res.render('index', json);
+                var param = {"status": constants.LIVE_STATUS_STARTED};
+                liveBusiness.queryAllLives(param, (err, data)=> {
+                    if (err) {
+                        console.error("indexRoute--get--/--error");
+                        throw err;
+                    }
+                    if (data) {
+                        if (data.length > 0) {
+                            json.streamCode = data[0].streamcode;
+                            json.live_name = data[0].live_name;
+                            json.username = data[0].username;
+                            res.render('index', json);
+                        }
+                        else {
+                            res.render('index', json);
+                        }
+                    }
+                });
             }
         }
     });
