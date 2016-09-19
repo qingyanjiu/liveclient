@@ -14,8 +14,6 @@ router.get('/', function (req, res, next) {
         host: constants.DB_ALIA,
         user: 'root',
         password: '123',
-        live_name:null,
-        username:null
     });
     connection.connect();
     connection.query('show databases', function (err, data) {
@@ -35,7 +33,9 @@ router.get('/', function (req, res, next) {
                     "title": 'PRIVATE直播',
                     "streamUrl": constants.SERVER_URL,
                     "streamName": "live",
-                    "streamCode": ""
+                    "streamCode": "",
+                    "live_name":null,
+                    "username":null
                 }
                 var param = {"status": constants.LIVE_STATUS_STARTED};
                 liveBusiness.queryAllLives(param, (err, data)=> {
