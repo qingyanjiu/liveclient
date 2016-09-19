@@ -13,7 +13,9 @@ router.get('/', function (req, res, next) {
     var connection = mysql.createConnection({
         host: constants.DB_ALIA,
         user: 'root',
-        password: '123'
+        password: '123',
+        live_name:null,
+        username:null
     });
     connection.connect();
     connection.query('show databases', function (err, data) {
