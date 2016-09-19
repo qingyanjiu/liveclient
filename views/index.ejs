@@ -144,7 +144,9 @@
                         &lang=zh_CN
                         &logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png
                         &poster=/assets/img/liveback.jpg
-                        &title=LiveVideo
+                        <% if(live_name){ %>
+                        &title=<%= live_name %>
+                        <% } %>
                         &skin=liveWhite">
                 </script>
                 <% if(live_name && username){ %>
