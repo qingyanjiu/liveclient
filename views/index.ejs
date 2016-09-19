@@ -136,20 +136,22 @@
     <!-- Begin page content -->
 
 
-    <div class="container" id="live" >
+    <div class="container" id="live">
         <div style="position: absolute;left: 50%;height:800px">
             <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:60px">
                 <script type="text/javascript"
-                        src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%=streamUrl%>/<%=streamName%>/<%=streamCode%>&autostart=true&buffer=5
+                        src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamCode %>&autostart=true&buffer=5
                         &lang=zh_CN
                         &logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png
                         &poster=/assets/img/liveback.jpg
                         &title=LiveVideo
                         &skin=liveWhite">
                 </script>
+                <% if(live_name && username){ %>
                 <div style="background-color: rgba(255,255,255,0.2);height:50px">
-                    <p style="font-size:16px;color:#FFFFFF;text-align:center;padding:10px"><%=live_name%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户:<%=username%></p>
+                    <p style="font-size:16px;color:#FFFFFF;text-align:center;padding:10px"><%= live_name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户:<%= username %></p>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>
@@ -213,7 +215,7 @@
 <script type="text/javascript">
     function toggleMenu(obj) {
         if (obj == '0') {
-            document.location="/live/list";
+            document.location = "/live/list";
         }
         else if (obj == '1') {
             $("#login").hide();
