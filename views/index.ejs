@@ -10,6 +10,30 @@
     <!-- CSS -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
+        .dm {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #000
+        }
+
+        .dm .d_screen .d_mask {
+            width: 100%;
+            height: 500px;
+            background: #000;
+            opacity: 0;
+            /*filter: alpha(opacity=50);*/
+            z-index: 1;
+        }
+
+        .dm .d_screen .d_show div {
+            font-size: 22px;
+            line-height: 36px;
+            font-weight: 500;
+            color: #fff;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
 
         /* Sticky footer styles
         -------------------------------------------------- */
@@ -137,7 +161,25 @@
 
 
     <div class="container" id="live">
+
         <div style="position: absolute;left: 50%;height:800px">
+
+            <!-- 弹幕区域 -->
+            <main id="main"
+                  style="width:975px;height:500px;line-height: 25px;margin: 0 5px;float: left;position: absolute;right: 50%;padding-top:80px;z-index:1;">
+                <div style="text-align:center;margin-top:10px">
+                    <div class="dm" style="border:0;">
+                        <div class="d_screen" style="border: 1px solid rgba(229, 229, 229,0);">
+                            <div class="d_mask" style="background:#fff"></div>
+                            <div class="d_show">
+                                <!-- <div>text message</div>  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- 弹幕区域 -->
+
             <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:60px">
                 <script type="text/javascript"
                         src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamCode %>&autostart=true&buffer=5
@@ -154,6 +196,23 @@
                     <p style="font-size:16px;color:#FFFFFF;text-align:center;padding:10px"><%= live_name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户:<%= username %></p>
                 </div>
                 <% } %>
+                <br/>
+                <div class="send" style="text-align:center">
+                    <input placeholder="说点什么?" class="s_txt" type="text" style="width:388px;
+                                      height: 34px;
+                                      border-radius: 3px;
+                                      border: 1px solid rgb(204, 204, 204);
+                                      padding-left: 10px;"/>
+                    <input type="button" value="发送弹幕" class="s_sub" style="border: 1px solid rgb(210, 80, 30);color:rgb(230, 80, 30);
+                                      border-radius: 3px;
+                                      text-align: center;
+                                      height: 45px;
+                                      margin-left:10px;
+                                      margin-bottom:10px;
+                                      line-height: 35px;
+                                      font-weight:bold;
+                                      font-size: 14px;width:159px;background-color:white"/>
+                </div>
             </div>
         </div>
     </div>
@@ -189,6 +248,7 @@
     </div>
 </div>
 
+
 <div id="footer">
     <div class="container">
         <p class="muted credit" style="color:#000000">PRIVATE直播&nbsp;&nbsp;&nbsp;&nbsp; <a
@@ -196,6 +256,10 @@
     </div>
 </div>
 
+
+<script src="https://cdn.wilddog.com/sdk/js/2.0.0/wilddog-auth.js"></script>
+<script src="https://cdn.wilddog.com/sdk/js/2.0.0/wilddog-sync.js"></script>
+<!--<script src="https://cdn.wilddog.com/js/vendor/jquery-1.11.2.min.js"></script>-->
 
 <!-- Le javascript
 ================================================== -->
@@ -301,6 +365,89 @@
             }
         });
     }
+
+
+    //关于弹幕
+    $(document).ready(function () {
+        var config = {
+            authDomain: "qingyanjiu.wilddog.com",
+            syncURL: "https://qingyanjiu.wilddogio.com"
+        };
+        wilddog.initializeApp(config);
+        var ref = wilddog.sync().ref();
+        var arr = [];
+
+        $(".s_sub").click(function () {
+            //把弹幕内容和服务器时间戳写入野狗数据库
+            var text = $(".s_txt").val();
+            var time = wilddog.sync().ServerValue.TIMESTAMP;
+            if ('<%= streamCode %>') {
+                ref.child('<%= streamCode %>').push({"msg": text, "time": time});
+                $(".s_txt").val('');
+            }
+
+        });
+
+        $(".s_txt").keypress(function (event) {
+            if (event.keyCode == "13") {
+                $(".s_sub").trigger('click');
+            }
+        });
+
+
+        if ('<%= streamCode %>') {
+            ref.child('<%= streamCode %>').on('child_added', function (snapshot) {
+                var text = snapshot.val();
+                //只有时间戳值大于服务器当前时间的弹幕才显示,本地时间有点差距 加个5秒钟的延迟，问题不大了
+                if (text.time >= new Date().getTime()-5000) {
+                    arr.push(text.msg);
+                    var textObj = $("<div class=\"dm_message\"></div>");
+                    textObj.text(text.msg);
+                    $(".d_show").append(textObj);
+                    moveObj(textObj);
+                }
+            });
+        }
+
+        var topMin = $('.d_mask').offset().top;
+        var topMax = topMin + $('.d_mask').height();
+        var _top = topMin;
+
+        var moveObj = function (obj) {
+            var _left = $('.d_mask').width() - obj.width();
+            _top = _top + 50;
+            if (_top > (topMax - 50)) {
+                _top = topMin;
+            }
+            obj.css({left: _left, top: _top, color: getReandomColor()});
+//            var time = 20000 + 10000 * Math.random();
+            var time = 10000;
+            obj.animate({left: "-20px"}, time, function () {
+                obj.remove();
+            });
+        }
+
+        var getReandomColor = function () {
+            return '#' + (function (h) {
+                        return new Array(7 - h.length).join("0") + h
+                    })((Math.random() * 0x1000000 << 0).toString(16))
+        }
+
+//        var getAndRun = function() {
+//            if (arr.length > 0) {
+//                var n = Math.floor(Math.random() * arr.length + 1) - 1;
+//                var textObj = $("<div>" + arr[n] + "</div>");
+//                $(".d_show").append(textObj);
+//                moveObj(textObj);
+//            }
+//
+//            setTimeout(getAndRun, 3000);
+//        }
+//
+//        jQuery.fx.interval = 50;
+//        getAndRun();
+
+    });
 
 </script>
 

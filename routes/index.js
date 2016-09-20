@@ -33,7 +33,7 @@ router.get('/', function (req, res, next) {
                     "title": 'PRIVATE直播',
                     "streamUrl": constants.SERVER_URL,
                     "streamName": "live",
-                    "streamCode": "",
+                    "streamCode": null,
                     "live_name":null,
                     "username":null
                 }

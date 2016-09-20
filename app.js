@@ -93,7 +93,7 @@ app.use(function (req, res, next) {
     //首页、登录、注册请求，不会被过滤
     var url = req.originalUrl;
     if (url != "/" && url != "/init" && url != "/initDatabase" && url != "/user/login"
-        && url != "/user/register" && url != "/live/list"
+        && url != "/user/register" && url != "/live/list" && url.indexOf("/live/show/") == -1
         && !req.session.userid) {
       return res.redirect("/");
     }

@@ -97,7 +97,7 @@ router.post('/end', function (req, res, next) {
 
 
 //跳转到特定用户直播界面
-router.get('/:username', function (req, res, next) {
+router.get('/show/:username', function (req, res, next) {
     var param = req.body;
     var username = req.params.username;
     param.username = username;
