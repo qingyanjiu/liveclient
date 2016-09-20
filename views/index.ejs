@@ -398,8 +398,8 @@
         if ('<%= streamCode %>') {
             ref.child('<%= streamCode %>').on('child_added', function (snapshot) {
                 var text = snapshot.val();
-                //只有时间戳值大于服务器当前时间的弹幕才显示,本地时间有点差距 加个5秒钟的延迟，问题不大了
-                if (text.time >= new Date().getTime()-5000) {
+                //只有时间戳值大于服务器当前时间的弹幕才显示,本地时间有点差距 加个10秒钟的延迟，问题不大了
+                if (text.time >= new Date().getTime()-10000) {
                     arr.push(text.msg);
                     var textObj = $("<div class=\"dm_message\"></div>");
                     textObj.text(text.msg);
