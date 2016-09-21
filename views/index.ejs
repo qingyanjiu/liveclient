@@ -252,7 +252,7 @@
 <div id="footer">
     <div class="container">
         <p class="muted credit" style="color:#000000">PRIVATE直播&nbsp;&nbsp;&nbsp;&nbsp; <a
-                    href="http://martinbean.co.uk" style="color:#333333">Louis.L</a></p>
+                    href="#" style="color:#333333">Louis.L</a></p>
     </div>
 </div>
 
@@ -396,7 +396,7 @@
 
 
         if ('<%= streamCode %>') {
-            ref.child('<%= streamCode %>').on('child_added', function (snapshot) {
+            ref.child('<%= streamCode %>').limitToLast(1).on('child_added', function (snapshot) {
                 var text = snapshot.val();
                 //只有时间戳值大于服务器当前时间的弹幕才显示,本地时间有点差距 加个10秒钟的延迟，问题不大了
                 if (text.time >= new Date().getTime()-10000) {
