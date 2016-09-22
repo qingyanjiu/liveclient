@@ -193,7 +193,11 @@
                 </script>
                 <% if(live_name && username){ %>
                 <div style="background-color: rgba(255,255,255,0.2);height:50px">
-                    <p style="font-size:16px;color:#FFFFFF;text-align:center;padding:10px"><%= live_name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户:<%= username %></p>
+                    <p style="font-size:16px;color:#FFFFFF;text-align:center;padding:10px">
+                        <%= live_name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        用户:<%= username %>
+                        <span style="margin-left:40px" id="infobar" ></span>
+                    </p>
                 </div>
                 <% } %>
                 <br/>
@@ -447,7 +451,33 @@
 //        jQuery.fx.interval = 50;
 //        getAndRun();
 
+        setInterval('getSubs()',5000);
+
     });
+
+    function getSubs(){
+        $.ajax({
+            //提交数据的类型 POST GET
+            type: "POST",
+            //提交的网址
+            url: "/live/viewerCount",
+            //提交的数据
+            data: {
+                streamCode: "<%=streamCode%>"
+            },
+            //返回数据的格式
+            datatype: "json",
+            success: function (data) {
+                $("#infobar").html("当前观众  "+data.count+"人");
+            },
+            //调用出错执行的函数
+            error: function () {
+                //
+            }
+        });
+    }
+
+
 
 </script>
 

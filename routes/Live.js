@@ -1,5 +1,7 @@
 'use strict';
 
+var httpReq = require('../services/HttpRequests');
+
 var express = require('express');
 var router = express.Router();
 var liveBusiness = require('../business/LiveBusiness');
@@ -113,8 +115,8 @@ router.get('/show/:username', function (req, res, next) {
             // throw err;
         }
         if (data) {
-            if(data.length>0) {
-                var title = data[0].username+"的直播间";
+            if (data.length > 0) {
+                var title = data[0].username + "的直播间";
                 data[0].title = title;
                 data[0].user_id = userid;
                 data[0].username = username;
@@ -124,6 +126,15 @@ router.get('/show/:username', function (req, res, next) {
                 res.render('index', data[0]);
             }
         }
+    });
+});
+
+//查询当前直播间人数
+router.post('/viewerCount', function (req, res, next) {
+    var param = req.body;
+    var url = "http://" + constants.SERVER_URL + ":8099/nclients?app=" + constants.LIVE_STREAM_NAME + "&name=" + param.streamCode;
+    httpReq.requestViewerCount(url, (err,data)=> {
+        res.json({"count": data});
     });
 });
 

@@ -94,6 +94,7 @@ app.use(function (req, res, next) {
     var url = req.originalUrl;
     if (url != "/" && url != "/init" && url != "/initDatabase" && url != "/user/login"
         && url != "/user/register" && url != "/live/list" && url.indexOf("/live/show/") == -1
+        && url != "/live/viewerCount"
         && !req.session.userid) {
       return res.redirect("/");
     }

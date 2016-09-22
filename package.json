@@ -16,6 +16,9 @@
     "connect-mongo": ">= 0.1.7",
     "express-session":"latest",
     "mysql":"latest",
-    "md5":"latest"
+    "md5":"latest",
+    "request": "2.27.0",
+    "cheerio": "latest",
+    "iconv-lite": "latest"
   }
 }
