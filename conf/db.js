@@ -1,6 +1,9 @@
 // MySQL数据库联接配置
 
 var constants = require('../services/constants');
+var rf=require("fs");
+
+var dbip = rf.readFileSync("conf/DBIp","utf-8");
 
 
 module.exports = {
@@ -15,7 +18,7 @@ module.exports = {
   // }
 
     mysql: {
-        host: constants.DB_ALIA,
+        host: dbip,
         user: 'root',
         password: '123',
         database:'livestream',
