@@ -18,7 +18,7 @@ RUN tar xzf nginx-1.2.4.tar.gz
 
 WORKDIR /nginx-1.2.4
 
-RUN ./configure --add-module=/nginx-rtmp-module --with-http_xslt_module --with-debug
+RUN ./configure --add-module=/nginx-rtmp-module --with-http_xslt_module
 
 RUN make
 
