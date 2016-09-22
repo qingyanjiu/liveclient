@@ -1,6 +1,6 @@
-FROM daocloud.io/centos:7
+FROM centos:7
 
-RUN yum install -y wget git gcc pcre-devel openssl openssl-devel
+RUN yum install -y wget git gcc pcre-devel openssl openssl-devel libxslt-devel
 
 WORKDIR /
 
@@ -18,13 +18,15 @@ RUN tar xzf nginx-1.2.4.tar.gz
 
 WORKDIR /nginx-1.2.4
 
-RUN ./configure --add-module=/nginx-rtmp-module --with-debug
+RUN ./configure --add-module=/nginx-rtmp-module --with-http_xslt_module --with-debug
 
 RUN make
 
 RUN make install
 
 COPY nginx.conf /nginx-1.2.4/conf/nginx.conf
+
+COPY nclients.xsl /usr/local/nginx/html/
 
 RUN chmod 777 /usr/local/nginx/html 
 
