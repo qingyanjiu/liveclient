@@ -1,10 +1,11 @@
 var rf = require("fs");
 var serverip = rf.readFileSync("conf/ServerIp", "utf-8");
+var dbip = rf.readFileSync("conf/DBIp","utf-8");
 
 var constants = {
     TITLE: "木木直播",
 
-    DB_ALIA: "livedb",
+    DB_ALIA: dbip,
 
     PIC_URL: "http://" + serverip + ":8099/",
 

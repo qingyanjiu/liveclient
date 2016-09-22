@@ -6,6 +6,8 @@ COPY . /srs-client
 
 WORKDIR /srs-client/
 
+#RUN echo "108.61.182.153" > conf/DBIp
+
 RUN npm install
 
 RUN npm install -g supervisor
