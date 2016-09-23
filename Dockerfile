@@ -30,4 +30,8 @@ COPY nclients.xsl /usr/local/nginx/html/
 
 RUN chmod 777 /usr/local/nginx/html 
 
+EXPOSE 80
+
+EXPOSE 1935
+
 CMD /usr/local/nginx/sbin/nginx -c /nginx-1.2.4/conf/nginx.conf
