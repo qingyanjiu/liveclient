@@ -7,9 +7,9 @@ var constants = {
 
     DB_ALIA: dbip,
 
-    PIC_URL: "http://" + serverip + ":8099/",
+    PIC_URL: "http://" + serverip.trim() + ":8099/",
 
-    SERVER_URL: serverip,
+    SERVER_URL: serverip.trim(),
     LIVE_STREAM_NAME: "live",
 
     USER_STATUS_INUSE: "0",
