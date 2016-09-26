@@ -94,11 +94,16 @@
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <li><a href="#" onClick="toggleMenu('0')">首页</a></li>
+                        <% if(user_id){ %>
+                        <li><a href="#myroom" onClick="toggleMenu('3')">我的直播间</a></li>
+                        <% } %>
                         <li><a href="#register" onClick="toggleMenu('1')">新用户注册</a></li>
                         <% if(user_id){ %>
-                        <li><a href="#usercenter" onClick="toggleMenu('9')"><img src="/assets/img/head.jpg"
-                                                                  style="height:20px;width:20px;border-radius: 10px"/>&nbsp;<%= username %>
-                            </a></li>
+                        <li><a href="#usercenter" onClick="toggleMenu('9')">
+                                <img src="/assets/img/head.jpg"
+                                     style="height:20px;width:20px;border-radius: 10px"/>&nbsp;<%= username %>
+                            </a>
+                        </li>
                         <% }else{ %>
                         <li><a href="#login" onClick="toggleMenu('2')">登录我的账号</a></li>
                         <% } %>
@@ -117,8 +122,8 @@
                 <li class="span3">
                     <% for(i = 0;i < lives.length;i++){ %>
                     <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:10px;margin-bottom:10px"
-                         onclick="watchLive('<%= lives[i].streamcode %>','<%=lives[i].live_name%>')">
-                        <div style="width: 320px; height: 180px;background-image:url(<%=snapshotUrl%><%= lives[i].streamcode %>.png);background-size:contain">
+                         onclick="watchLive('<%= lives[i].streamcode %>','<%= lives[i].live_name %>')">
+                        <div style="width: 320px; height: 180px;background-image:url(<%= snapshotUrl %> <%= lives[i].streamcode %>.png);background-size:contain">
                         </div>
                         <p style="padding:10px;font-size:16px">主播:<%= lives[i].username %>
                             &nbsp;&nbsp;&nbsp;&nbsp;<%= lives[i].live_name %></p>
@@ -192,18 +197,21 @@
             $("#steamlist").hide();
             $("#regi").hide();
         }
+        else if (obj == '3') {
+            document.location = "/live/show/<%= username %>";
+        }
         else if (obj == '9') {
-            document.location = "/live";
+//            document.location = "/live";
         }
     }
 
-    function watchLive(streamcode,livename) {
+    function watchLive(streamcode, livename) {
         $("#cont").html(
                 '<div style="position: absolute;right: 40%;height:800px;z-index:0">' +
                 '<div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;left: 50%;padding-top:60px">' +
                 '<script type="text/javascript"' +
-                'src="/player/sewise.player.min.js?server=live&type=rtmp&'+
-                'streamurl=rtmp://<%=streamUrl%>/<%=streamName%>/'+streamcode+
+                'src="/player/sewise.player.min.js?server=live&type=rtmp&' +
+                'streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/' + streamcode +
                 '&autostart=true&buffer=5' +
                 '&lang=zh_CN' +
                 '&logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png' +

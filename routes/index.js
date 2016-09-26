@@ -35,7 +35,8 @@ router.get('/', function (req, res, next) {
                     "streamName": "live",
                     "streamCode": null,
                     "live_name":null,
-                    "username":null
+                    "username":null,
+                    "user_id":null,
                 }
                 var param = {"status": constants.LIVE_STATUS_STARTED};
                 liveBusiness.queryAllLives(param, (err, data)=> {

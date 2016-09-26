@@ -142,15 +142,26 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
                 </button>
                 <a class="brand" href="#"><%= title %></a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <li><a href="#" onClick="toggleMenu('0')">直播列表</a></li>
+                        <% if(!user_id){ %>
                         <li><a href="#register" onClick="toggleMenu('1')">新用户注册</a></li>
-                        <li><a href="#contact" onClick="toggleMenu('2')">联系我们</a></li>
-                        <li id="userTip"><a href="#login" onClick="toggleMenu('3')">登录我的账号</a></li>
+                        <% } else{ %>
+                        <li><a href="#myroom" onClick="toggleMenu('2')">我只想看弹幕</a></li>
+                        <% } %>
+                        <li id="userTip">
+                            <% if(!user_id){ %>
+                            <a href="#login" onClick="toggleMenu('3')">登录我的账号</a>
+                            <% }else{ %>
+                            <a href="#usercenter">
+                                <img src="/assets/img/head.jpg"
+                                     style="height:20px;width:20px;border-radius: 10px"/>&nbsp;<%= username %>
+                            </a>
+                            <% } %>
+                        </li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -196,7 +207,7 @@
                     <p style="font-size:16px;color:#FFFFFF;text-align:center;padding:10px">
                         <%= live_name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         用户:<%= username %>
-                        <span style="margin-left:40px" id="infobar" ></span>
+                        <span style="margin-left:40px" id="infobar"></span>
                     </p>
                 </div>
                 <% } %>
@@ -231,11 +242,6 @@
             </button>
         </form>
     </div>
-
-    <div class="container" id="cont" style="display:none">
-        联系方式
-    </div>
-
 
     <div class="container" id="login" style="display:none">
         <form class="form-signin">
@@ -294,11 +300,9 @@
             $("#cont").hide();
         }
         else if (obj == '2') {
-            $("#login").hide();
-            $("#live").hide();
-            $("#regi").hide();
-            $("#cont").show();
-        } else if (obj == '3') {
+            danmuList();
+        }
+        else if (obj == '3') {
             $("#login").show();
             $("#live").hide();
             $("#regi").hide();
@@ -403,7 +407,7 @@
             ref.child('<%= streamCode %>').limitToLast(1).on('child_added', function (snapshot) {
                 var text = snapshot.val();
                 //只有时间戳值大于服务器当前时间的弹幕才显示,本地时间有点差距 加个10秒钟的延迟，问题不大了
-                if (text.time >= new Date().getTime()-10000) {
+                if (text.time >= new Date().getTime() - 10000) {
                     arr.push(text.msg);
                     var textObj = $("<div class=\"dm_message\"></div>");
                     textObj.text(text.msg);
@@ -451,11 +455,11 @@
 //        jQuery.fx.interval = 50;
 //        getAndRun();
 
-        setInterval('getSubs()',5000);
+        setInterval('getSubs()', 5000);
 
     });
 
-    function getSubs(){
+    function getSubs() {
         $.ajax({
             //提交数据的类型 POST GET
             type: "POST",
@@ -463,12 +467,12 @@
             url: "/live/viewerCount",
             //提交的数据
             data: {
-                streamCode: "<%=streamCode%>"
+                streamCode: "<%= streamCode %>"
             },
             //返回数据的格式
             datatype: "json",
             success: function (data) {
-                $("#infobar").html("当前观众  "+data.count+"人");
+                $("#infobar").html("当前观众  " + data.count + "人");
             },
             //调用出错执行的函数
             error: function () {
@@ -477,7 +481,9 @@
         });
     }
 
-
+    function danmuList() {
+        window.open('/live/danmuList', 'danmuList', 'height=700px,width=400px,,top=60px,left=600px,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes');
+    }
 
 </script>
 
