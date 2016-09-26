@@ -19,6 +19,7 @@
     "md5":"latest",
     "request": "2.27.0",
     "cheerio": "latest",
-    "iconv-lite": "latest"
+    "iconv-lite": "latest",
+    "sweetalert":"latest"
   }
 }

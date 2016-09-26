@@ -139,4 +139,31 @@ router.post('/viewerCount', function (req, res, next) {
 });
 
 
+router.get('/danmuList', function (req, res, next) {
+    var userid;
+    if (req.session.userid)
+        userid = req.session.userid;
+    if(userid) {
+        var json = {};
+        json.user_id = userid;
+        //先查询当前用户是否有正在进行的直播，有的话返回直播推流码
+        liveBusiness.queryMyCurrentLive(json, (err, data)=> {
+            if (err) {
+                console.error("LiveRouter--get--danmuList/--error");
+                throw err;
+            }
+            if (data) {
+                if (data.length > 0) {
+                    json.streamCode = data[0].streamcode;
+                    res.render('danmuList', json);
+                }
+            }
+        });
+    }
+    else {
+        res.render('loginWindow');
+    }
+});
+
+
 module.exports = router;

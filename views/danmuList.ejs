@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>弹幕快捷窗口</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSS -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+
+        /* Sticky footer styles
+        -------------------------------------------------- */
+
+        html,
+        body {
+            height: 100%;
+            font-family: "微软雅黑"
+            /* The html and body elements cannot have any padding or margin. */
+        }
+
+        /* Wrapper for page content to push down footer */
+        #wrap {
+            min-height: 100%;
+            height: auto !important;
+            height: 100%;
+            /* Negative indent footer by it's height */
+            margin: 0 auto -60px;
+        }
+
+        /* Set the fixed height of the footer here */
+        #push,
+        #footer {
+            height: 60px;
+        }
+
+        #footer {
+            background-color: rgba(235, 235, 235, 0.6);
+        }
+
+        /* Lastly, apply responsive CSS fixes as necessary */
+        @media (max-width: 767px) {
+            #footer {
+                margin-left: -20px;
+                margin-right: -20px;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        /* Custom page CSS
+        -------------------------------------------------- */
+        /* Not required for template or sticky footer method. */
+
+        .container {
+            width: auto;
+            max-width: 680px;
+        }
+
+        .container .credit {
+            margin: 20px 0;
+        }
+
+    </style>
+    <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/assets/ico/favicon.png">
+</head>
+
+<body  style="background-color:#444444">
+
+
+    <div class="container" id="live">
+            <div style="text-align:center;color:orange;margin-top:6px">============</div>
+            <!-- 弹幕区域 -->
+                <div style="text-align:left;margin-top:2px;">
+                    <div class="dm" style="border:0;">
+                        <div class="d_screen" style="border: 1px solid rgba(229, 229, 229,0);">
+                            <div class="d_mask" style="background:#fff"></div>
+                            <div class="d_show">
+                                <!-- <div>text message</div>  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- 弹幕区域 -->
+    </div>
+
+
+
+<script src="https://cdn.wilddog.com/sdk/js/2.0.0/wilddog-auth.js"></script>
+<script src="https://cdn.wilddog.com/sdk/js/2.0.0/wilddog-sync.js"></script>
+<!--<script src="https://cdn.wilddog.com/js/vendor/jquery-1.11.2.min.js"></script>-->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/bootstrap-transition.js"></script>
+<script src="/assets/js/bootstrap-alert.js"></script>
+<script src="/assets/js/bootstrap-modal.js"></script>
+<script src="/assets/js/bootstrap-dropdown.js"></script>
+<script src="/assets/js/bootstrap-scrollspy.js"></script>
+<script src="/assets/js/bootstrap-tab.js"></script>
+<script src="/assets/js/bootstrap-tooltip.js"></script>
+<script src="/assets/js/bootstrap-popover.js"></script>
+<script src="/assets/js/bootstrap-button.js"></script>
+<script src="/assets/js/bootstrap-collapse.js"></script>
+<script src="/assets/js/bootstrap-carousel.js"></script>
+<script src="/assets/js/bootstrap-typeahead.js"></script>
+
+<script type="text/javascript">
+
+    //关于弹幕
+    $(document).ready(function () {
+        var config = {
+            authDomain: "qingyanjiu.wilddog.com",
+            syncURL: "https://qingyanjiu.wilddogio.com"
+        };
+        wilddog.initializeApp(config);
+        var ref = wilddog.sync().ref();
+        var arr = [];
+
+        $(".s_sub").click(function () {
+            //把弹幕内容和服务器时间戳写入野狗数据库
+            var text = $(".s_txt").val();
+            var time = wilddog.sync().ServerValue.TIMESTAMP;
+            if ('<%= streamCode %>') {
+                ref.child('<%= streamCode %>').push({"msg": text, "time": time});
+                $(".s_txt").val('');
+            }
+
+        });
+
+        $(".s_txt").keypress(function (event) {
+            if (event.keyCode == "13") {
+                $(".s_sub").trigger('click');
+            }
+        });
+
+
+        if ('<%= streamCode %>') {
+            ref.child('<%= streamCode %>').limitToLast(1).on('child_added', function (snapshot) {
+                var text = snapshot.val();
+                //只有时间戳值大于服务器当前时间的弹幕才显示,本地时间有点差距 加个10秒钟的延迟，问题不大了
+                if (text.time >= new Date().getTime()-10000) {
+                    arr.push(text.msg);
+                    var textObj = $("<div style=\"color:#FFFFFF;font-size:16px;margin-top:6px\"></div>");
+                    textObj.text("--> "+text.msg);
+                    $(".d_show").append(textObj);
+                }
+            });
+        }
+
+    });
+
+
+</script>
+
+</body>
+</html>
