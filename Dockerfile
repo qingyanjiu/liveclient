@@ -6,7 +6,9 @@ COPY . /srs-client
 
 WORKDIR /srs-client/
 
-#RUN echo "108.61.182.153" > conf/DBIp
+#RUN echo -n "108.61.182.153" > conf/DBIp
+
+#RUN echo -n "108.61.182.153" > conf/ServerIp
 
 RUN npm install
 
