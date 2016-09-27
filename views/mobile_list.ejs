@@ -36,7 +36,7 @@
                     <a href="#" class="thumbnail"
                        onclick="watchLive('<%= lives[i].streamcode %>','<%= lives[i].live_name %>','<%= lives[i].username %>')"
                        style="background-image:url('/assets/img/liveback.png');background-size:cover">
-                        <img style="width: 100%; height: 160px;background-image:url(<%= snapshotUrl %> <%= lives[i].streamcode %>.png);background-size:cover">
+                        <img style="width: 100%; height: 160px;background-image:url(<%= snapshotUrl %><%= lives[i].streamcode %>.png);background-size:cover">
                         </img>
                     </a>
                 </li>
@@ -46,25 +46,6 @@
             <% } %>
         </ul>
     </div>
-
-
-    <!--<div class="container" id="list">-->
-    <!--<div id="player" style="width:100%;">-->
-    <!--<script type="text/javascript">-->
-    <!--SewisePlayer.setup({-->
-    <!--server: "vod",-->
-    <!--type: "m3u8",-->
-    <!--autostart: "true",-->
-    <!--poster: "http://108.61.182.153:8099/6BCC5FB5-C242-4F3F-9D9F-F6645B1AE955.png",-->
-    <!--videourl: "http://108.61.182.153:8099/hls/6BCC5FB5-C242-4F3F-9D9F-F6645B1AE955.m3u8",-->
-    <!--skin: "vodWhite",-->
-    <!--title: "Live M3U8",-->
-    <!--claritybutton: "disable",-->
-    <!--lang: "zh_CN"-->
-    <!--}, "player");-->
-    <!--</script>-->
-    <!--</div>-->
-    <!--</div>-->
 </div>
 
 
