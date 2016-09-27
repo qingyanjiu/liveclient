@@ -85,13 +85,18 @@ app.use(function (req, res, next) {
 
     //获取访问的设备类型
     var deviceAgent = req.headers["user-agent"].toLowerCase();
-    //判断是不是手机或pad
-    var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
-    //如果是，直接跳转到移动端的直播列表
-    if (agentID) {
+    //判断是不是手机
+    var phone = deviceAgent.match(/(iphone|ipod|android)/);
+    //判断是不是pad
+    var pad = deviceAgent.match(/(ipad)/);
+    var type = "phone";
+    if(pad)
+        type = "pad";
+    //如果是手机，直接跳转到手机端的直播列表；如果是pad，调到pad端的直播列表
+    if (phone || pad) {
         var url = req.originalUrl;
         if (url.indexOf("/live/mobile/") == -1)
-            return res.redirect("/live/mobile/list");
+            return res.redirect("/live/mobile/list/"+type);
         next();
     }
 

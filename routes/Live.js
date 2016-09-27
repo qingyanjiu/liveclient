@@ -166,10 +166,14 @@ router.get('/danmuList', function (req, res, next) {
 });
 
 //进入移动端直播列表界面
-router.get('/mobile/list', function (req, res, next) {
+router.get('/mobile/list/:type', function (req, res, next) {
+    //设备类型
+    var deviceType = req.params.type;
     var json = {
         "title": '直播列表',
-        "streamUrl": constants.SERVER_URL, "snapshotUrl": constants.PIC_URL
+        "streamUrl": constants.SERVER_URL,
+        "snapshotUrl": constants.PIC_URL,
+        "deviceType":deviceType
     };
     //查询所有直播
     liveBusiness.queryAllLives(json, (err, data)=> {

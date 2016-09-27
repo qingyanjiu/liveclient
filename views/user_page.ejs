@@ -235,6 +235,10 @@
     }
 
     function startLive(id) {
+        if($("#livename").val() == "") {
+            swal("大麦大麦", "直播间名字不能为空！", "error");
+            return;
+        }
         $.ajax({
             //提交数据的类型 POST GET
             type: "POST",
