@@ -35,7 +35,7 @@ router.get('/', function (req, res, next) {
 });
 
 
-//进入我的直播界面
+//进入直播列表界面
 router.get('/list', function (req, res, next) {
     var userid;
     if (req.session.userid)
@@ -44,10 +44,10 @@ router.get('/list', function (req, res, next) {
         "title": 'PRIVATE主页面', "user_id": userid, "username": req.session.username,
         "streamUrl": constants.SERVER_URL, "streamName": constants.LIVE_STREAM_NAME, "snapshotUrl": constants.PIC_URL
     };
-    //先查询当前用户是否有正在进行的直播，有的话返回直播推流码
+    //查询所有直播
     liveBusiness.queryAllLives(json, (err, data)=> {
         if (err) {
-            console.error("LiveRouter--post--/--error");
+            console.error("LiveRouter--get--list/--error");
             throw err;
         }
         if (data) {
@@ -133,17 +133,17 @@ router.get('/show/:username', function (req, res, next) {
 router.post('/viewerCount', function (req, res, next) {
     var param = req.body;
     var url = "http://" + constants.SERVER_URL + ":8099/nclients?app=" + constants.LIVE_STREAM_NAME + "&name=" + param.streamCode;
-    httpReq.requestViewerCount(url, (err,data)=> {
+    httpReq.requestViewerCount(url, (err, data)=> {
         res.json({"count": data});
     });
 });
 
-
+//只看弹幕列表的请求
 router.get('/danmuList', function (req, res, next) {
     var userid;
     if (req.session.userid)
         userid = req.session.userid;
-    if(userid) {
+    if (userid) {
         var json = {};
         json.user_id = userid;
         //先查询当前用户是否有正在进行的直播，有的话返回直播推流码
@@ -163,6 +163,49 @@ router.get('/danmuList', function (req, res, next) {
     else {
         res.render('loginWindow');
     }
+});
+
+//进入移动端直播列表界面
+router.get('/mobile/list', function (req, res, next) {
+    var json = {
+        "title": '直播列表',
+        "streamUrl": constants.SERVER_URL, "snapshotUrl": constants.PIC_URL
+    };
+    //查询所有直播
+    liveBusiness.queryAllLives(json, (err, data)=> {
+        if (err) {
+            console.error("LiveRouter--get--mobileIndex/--error");
+            throw err;
+        }
+        if (data) {
+            if (data.length > 0) {
+                json.lives = data;
+                res.render('mobile_list', json);
+            }
+            else {
+                json.lives = [];
+                res.render('mobile_list', json);
+            }
+        }
+    });
+});
+
+
+//进入移动端某用户直播间
+router.get('/mobile/:livecode/:livename/:username', function (req, res, next) {
+    var livecode = req.params.livecode;
+    var livename = req.params.livename;
+    var username = req.params.username;
+    console.log(livename);
+    var json = {
+        "title": username + '的直播间',
+        "streamUrl": constants.SERVER_URL,
+        "snapshotUrl": constants.PIC_URL,
+        "livecode": livecode,
+        "livename": livename,
+        "username": username,
+    };
+    res.render('mobile_room', json);
 });
 
 
