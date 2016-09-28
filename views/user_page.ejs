@@ -127,6 +127,32 @@
     </div>
 </div>
 
+
+<div id="shareModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
+        <h4 id="myModalLabel">直播分享</h4>
+    </div>
+    <div class="modal-body">
+        <p style="font-size:18px">您的移动端直播间地址</p>
+        <p id="streamcode" style="color:red">
+            <% if(streamcode){ %>
+            http://moku-live.daoapp.io/live/mobile/<%= streamcode %>/<%=livename%>/<%=username%>
+            <% } %>
+        </p>
+        <p style="font-size:18px">您的PC端直播间地址</p>
+        <p id="streamcode" style="color:red">
+            <% if(streamcode){ %>
+            http://moku-live.daoapp.io/live/show/<%=username%>
+            <% } %>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">好的</button>
+    </div>
+</div>
+
+
 <!-- Part 1: Wrap all page content here -->
 <div id="wrap" style="background-image:url('/assets/img/back.jpg');background-size:'contain';">
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -160,9 +186,13 @@
             <p>
                 <% if(streamcode){ %>
             <p id="codetip" style="font-size:14px;color:#FFFFFF">已开启直播,推流码：&nbsp;&nbsp;<span
-                        id="mycode"><%= streamcode %></span></p>
-            <button id="startLiveButton" class="btn btn-large btn-block btn-danger" type="button"
-                    style="width:50%;margin-left:25%" onclick="endLive('<%= user_id %>')">关闭直播
+                        id="mycode"><%= streamcode %></span>
+                <a id="startLiveButton"  href="#"
+                   style="margin-left:20px;font-size:16px;color:#FF0000" onclick="endLive('<%= user_id %>')">关闭直播
+                </a>
+            </p>
+            <button id="startLiveButton" class="btn btn-large btn-block btn-primary" type="button"
+                    style="width:50%;margin-left:25%" onclick="toggleMenu('10')">分享直播间
             </button>
             <% }else{ %>
             <input id="livename" type="text" style="width:360px;height:30px;margin:5px" placeholder="请输入直播间名称"/>
@@ -232,11 +262,14 @@
             $("#myroom").hide();
             $("#list").show();
         }
+        else if (obj == '10') {
+            $('#shareModal').modal('show');
+        }
     }
 
     function startLive(id) {
         if($("#livename").val() == "") {
-            swal("大麦大麦", "直播间名字不能为空！", "error");
+            swal("注意！", "直播间名字不能为空！", "error");
             return;
         }
         $.ajax({

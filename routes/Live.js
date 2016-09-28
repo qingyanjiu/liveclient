@@ -25,6 +25,7 @@ router.get('/', function (req, res, next) {
         if (data) {
             if (data.length > 0) {
                 json.streamcode = data[0].streamcode;
+                json.livename = data[0].live_name;
                 res.render('user_page', json);
             }
             else {
