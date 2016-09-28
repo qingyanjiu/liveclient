@@ -109,23 +109,23 @@
 
 <body style="overflow: hidden">
 
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
-        <h4 id="myModalLabel">开始直播!</h4>
-    </div>
-    <div class="modal-body">
-        <p style="font-size:18px">您的直播推流码如下：</p>
-        <p id="streamcode" style="color:red">
-            <% if(streamcode){ %>
-            <%= streamcode %>
-            <% } %>
-        </p>
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">我知道了</button>
-    </div>
-</div>
+<!--<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-header">-->
+        <!--&lt;!&ndash;<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>&ndash;&gt;-->
+        <!--<h4 id="myModalLabel">开始直播!</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
+        <!--<p style="font-size:18px">您的直播推流码如下：</p>-->
+        <!--<p id="streamcode" style="color:red">-->
+            <!--<% if(streamcode){ %>-->
+            <!--<%= streamcode %>-->
+            <!--<% } %>-->
+        <!--</p>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+        <!--<button class="btn" data-dismiss="modal" aria-hidden="true">我知道了</button>-->
+    <!--</div>-->
+<!--</div>-->
 
 
 <div id="shareModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -289,14 +289,27 @@
                     alert(data.error);
                 }
                 else {
-                    $("#livename").remove();
-                    $("#startLiveButton").before('<p id="codetip" style="font-size:14px;color:#FFFFFF">已开启直播,推流码：&nbsp;&nbsp;<span id="mycode">' + data.result + '</span></p>');
-                    $("#startLiveButton").removeClass("btn-success");
-                    $("#startLiveButton").addClass("btn-danger");
-                    $("#startLiveButton").text("关闭直播");
-                    $("#startLiveButton").attr("onclick", "endLive('" + id + "')");
-                    $("#streamcode").text(data.result);
-                    $('#myModal').modal('show');
+//                    $("#livename").remove();
+//                    $("#startLiveButton").before('<p id="codetip" style="font-size:14px;color:#FFFFFF">已开启直播,推流码：&nbsp;&nbsp;<span id="mycode">' + data.result + '</span></p>');
+//                    $("#startLiveButton").removeClass("btn-success");
+//                    $("#startLiveButton").addClass("btn-primary");
+//                    $("#startLiveButton").text("分享直播间");
+//                    $("#startLiveButton").attr("onclick", "endLive('" + id + "')");
+//                    $("#streamcode").text(data.result);
+//                    $('#myModal').modal('show');
+                    swal({
+                        title: "成功",
+                        text: "直播间已开启",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "收到",
+                        closeOnConfirm: false,
+                        closeOnCancel: true,
+                        html: false
+                    },function (isConfirm) {
+                        location.reload();
+                    });
                 }
             },
             //调用出错执行的函数
@@ -336,14 +349,27 @@
                             alert(data.error);
                         }
                         else if (data.result == "success") {
-                            $("#codetip").remove();
-                            $("#startLiveButton").removeClass("btn-danger");
-                            $("#startLiveButton").addClass("btn-success");
-                            $("#startLiveButton").text("开启直播");
-                            $("#startLiveButton").attr("onclick", "startLive('" + id + "')");
-                            $("#startLiveButton").before('<input id="livename" type="text" style="width:360px;height:30px;margin:5px" placeholder="请输入直播间名称"/>');
-                            swal("搞定", "已关闭直播", "success");
+//                            $("#codetip").remove();
+//                            $("#startLiveButton").removeClass("btn-danger");
+//                            $("#startLiveButton").addClass("btn-success");
+//                            $("#startLiveButton").text("开启直播");
+//                            $("#startLiveButton").attr("onclick", "startLive('" + id + "')");
+//                            $("#startLiveButton").before('<input id="livename" type="text" style="width:360px;height:30px;margin:5px" placeholder="请输入直播间名称"/>');
+                            swal({
+                                title: "成功",
+                                text: "直播间已关闭",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "收到",
+                                closeOnConfirm: false,
+                                closeOnCancel: true,
+                                html: false
+                            },function (isConfirm) {
+                                location.reload();
+                            });
                         }
+
                     },
                     //调用出错执行的函数
                     error: function (err) {
