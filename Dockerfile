@@ -1,4 +1,5 @@
-FROM daocloud.io/library/node:4.4.7
+#FROM daocloud.io/library/node:4.4.7
+FROM node:4.4.7
 #为了弹幕正常工作，修改了时区为上海
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
