@@ -100,7 +100,8 @@ module.exports = {
             connection.query(liveSqlMapping.get,
                 [
                     param.user_id,
-                    param.status,
+                    param.status1,
+                    param.status2,
                 ], function (err, result) {
                     if (err) {
                         console.error(myDate.toLocaleString() + "---" + err);
@@ -124,7 +125,8 @@ module.exports = {
             // 查询
             connection.query(liveSqlMapping.queryAllAvailable,
                 [
-                    param.status,
+                    param.status1,
+                    param.status2,
                 ], function (err, result) {
                     if (err) {
                         console.error(myDate.toLocaleString() + "---" + err);
@@ -173,7 +175,8 @@ module.exports = {
             connection.query(liveSqlMapping.getLiveFromName,
                 [
                     param.username,
-                    param.status,
+                    param.status1,
+                    param.status2,
                 ], function (err, result) {
                     if (err) {
                         console.error(myDate.toLocaleString() + "---" + err);

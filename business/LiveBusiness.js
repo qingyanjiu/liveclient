@@ -62,7 +62,8 @@ module.exports = {
     //查看直播列表
     queryAllLives: function (param, callback) {
         //查询所有有效的直播
-        param.status = constants.LIVE_STATUS_STARTED;
+        param.status1 = constants.LIVE_STATUS_STARTED;
+        param.status2 = constants.LIVE_STATUS_LIVING;
         LiveDao.getAllLives(param, function (err, result) {
             var ret = {};
             if (err) {
@@ -95,7 +96,8 @@ module.exports = {
 
     //查看我正在进行的直播
     queryMyCurrentLive: function (param, callback) {
-        param.status = constants.LIVE_STATUS_STARTED;
+        param.status1 = constants.LIVE_STATUS_STARTED;
+        param.status2 = constants.LIVE_STATUS_LIVING;
         LiveDao.getMyCurrentLive(param, function (err, result) {
             if (err) {
                 console.error("LiveBusiness--queryMyCurrentLive--getMyCurrentLive--error");
@@ -110,7 +112,8 @@ module.exports = {
 
     //获取某个用户的直播信息
     getUserLive: function (param, callback) {
-        param.status = constants.LIVE_STATUS_STARTED;
+        param.status1 = constants.LIVE_STATUS_STARTED;
+        param.status2 = constants.LIVE_STATUS_LIVING;
         LiveDao.getLiveFromUsername(param, function (err, result) {
             if (err) {
                 console.error("LiveBusiness--getUserLive--getUserLive--error");

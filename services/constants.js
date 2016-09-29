@@ -25,8 +25,12 @@ var constants = {
     TRUENAME_CERTED: "0",
     TRUENAME_UNCERTED: "1",
 
+    //直播间状态：已开启，未开播
     LIVE_STATUS_STARTED: "0",
+    //直播间状态：关闭
     LIVE_STATUS_ENDED: "1",
+    //直播间状态：已开启，已开播
+    LIVE_STATUS_LIVING: "9",
 };
 
 module.exports = constants;

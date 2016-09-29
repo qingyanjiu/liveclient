@@ -123,6 +123,9 @@
                     <% for(i = 0;i < lives.length;i++){ %>
                     <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:10px;margin-bottom:10px"
                          onclick="watchLive('<%= lives[i].streamcode %>','<%= lives[i].live_name %>')">
+                        <%if(lives[i].status == "9"){%>
+                        <div style="position:relative;float:right;background:orange;color:white;padding:10px">正在直播</div>
+                        <%}%>
                         <div style="width: 320px; height: 180px;background-image:url(<%= snapshotUrl %><%= lives[i].streamcode %>.png);background-size:contain">
                         </div>
                         <p style="padding:10px;font-size:16px">主播:<%= lives[i].username %>
