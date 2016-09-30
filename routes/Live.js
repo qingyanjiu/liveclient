@@ -106,8 +106,11 @@ router.get('/show/:username', function (req, res, next) {
     param.username = username;
     console.log(req.params.username);
     var userid;
-    if (req.session.userid)
+    var myname;
+    if (req.session.userid) {
         userid = req.session.userid;
+        myname = req.session.username;
+    }
     liveBusiness.getUserLive(param, (err, data)=> {
         if (err) {
             console.error("LiveRouter--get--:username--error");
@@ -124,6 +127,7 @@ router.get('/show/:username', function (req, res, next) {
                 data[0].streamUrl = constants.SERVER_URL;
                 data[0].streamName = constants.LIVE_STREAM_NAME;
                 data[0].streamCode = data[0].streamcode;
+                data[0].myname = myname;
                 res.render('index', data[0]);
             }
         }
