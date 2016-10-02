@@ -91,6 +91,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="brand" href="#"><%= title %></a>
+
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <li><a href="#" onClick="toggleMenu('0')">首页</a></li>
@@ -108,36 +109,58 @@
                         <li><a href="#login" onClick="toggleMenu('2')">登录我的账号</a></li>
                         <% } %>
                     </ul>
-                </div><!--/.nav-collapse -->
+                </div>
+                <!--/.nav-collapse -->
             </div>
         </div>
     </div>
 
     <!-- Begin page content -->
 
-    <div class="container" id="steamlist" style="height:inherit">
-        <div style="position: absolute;left: 0px;height:inherit;z-index:99">
-            <ul class="thumbnails"
-                style="width:360px;height:inherit;padding-left:4px;float: left;position: relative;padding-top:40px;background:#666666;overflow-y: auto">
-                <li class="span3">
-                    <% for(i = 0;i < lives.length;i++){ %>
-                    <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:10px;margin-bottom:10px"
-                         onclick="watchLive('<%= lives[i].streamcode %>','<%= lives[i].live_name %>')">
-                        <%if(lives[i].status == "9"){%>
-                        <div style="position:relative;float:right;background:orange;color:white;padding:10px">正在直播</div>
-                        <%}%>
-                        <div style="width: 320px; height: 180px;background-image:url(<%= snapshotUrl %><%= lives[i].streamcode %>.png);background-size:contain">
-                        </div>
-                        <p style="padding:10px;font-size:16px">主播:<%= lives[i].username %>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<%= lives[i].live_name %></p>
-                    </div>
-                    <% } %>
-                </li>
-            </ul>
-        </div>
-        <div id="cont">
+    <!--<div class="container" id="steamlist" style="height:inherit">-->
+    <!--<div style="position: absolute;left: 0px;height:inherit;z-index:99">-->
+    <!--<ul class="thumbnails"-->
+    <!--style="width:360px;height:inherit;padding-left:4px;float: left;position: relative;padding-top:40px;background:#666666;overflow-y: auto">-->
+    <!--<li class="span3">-->
+    <!--<% for(i = 0;i < lives.length;i++){ %>-->
+    <!--<div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:10px;margin-bottom:10px"-->
+    <!--onclick="watchLive('<%= lives[i].streamcode %>','<%= lives[i].live_name %>')">-->
+    <!--<% if(lives[i].status == "9"){ %>-->
+    <!--<div style="position:relative;float:right;background:orange;color:white;padding:10px">正在直播</div>-->
+    <!--<% } %>-->
+    <!--<div style="width: 320px; height: 180px;background-image:url(<%= snapshotUrl %> <%= lives[i].streamcode %>.png);background-size:contain">-->
+    <!--</div>-->
+    <!--<p style="padding:10px;font-size:16px">主播:<%= lives[i].username %>-->
+    <!--&nbsp;&nbsp;&nbsp;&nbsp;<%= lives[i].live_name %></p>-->
+    <!--</div>-->
+    <!--<% } %>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--<div id="cont">-->
 
-        </div>
+    <!--</div>-->
+    <!--</div>-->
+
+    <div id="steamlist" style="height:inherit">
+        <ul class="thumbnails"
+            style="height:inherit;padding-top:30px;padding-left:40px;background:#666666;overflow-y:auto">
+
+            <% for(i = 0;i < lives.length;i++){ %>
+            <li style="margin-top:40px">
+                <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:10px;margin-bottom:10px"
+                     onclick="toLive('<%= lives[i].username %>','<%= lives[i].live_name %>')">
+                    <% if(lives[i].status == "9"){ %>
+                    <div style="position:relative;float:right;background:orange;color:white;padding:10px">正在直播</div>
+                    <% } %>
+                    <div style="width: 320px; height: 180px;background-image:url(<%= snapshotUrl %><%= lives[i].streamcode %>.png);background-size:contain">
+                    </div>
+                    <p style="padding:10px;font-size:16px">主播:<%= lives[i].username %>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<%= lives[i].live_name %></p>
+                </div>
+            </li>
+            <% } %>
+        </ul>
     </div>
 
     <div class="container" id="regi" style="display:none">
@@ -206,6 +229,11 @@
         else if (obj == '9') {
 //            document.location = "/live";
         }
+    }
+
+    //去主播直播间
+    function toLive(casterName) {
+        document.location = "/live/show/" + casterName;
     }
 
     function watchLive(streamcode, livename) {

@@ -42,7 +42,7 @@ router.get('/list', function (req, res, next) {
     if (req.session.userid)
         userid = req.session.userid;
     var json = {
-        "title": 'PRIVATE主页面', "user_id": userid, "username": req.session.username,
+        "title": '直播列表', "user_id": userid, "username": req.session.username,
         "streamUrl": constants.SERVER_URL, "streamName": constants.LIVE_STREAM_NAME, "snapshotUrl": constants.PIC_URL
     };
     //查询所有直播
