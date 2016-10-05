@@ -217,5 +217,19 @@ router.get('/mobile/:livecode/:livename/:username', function (req, res, next) {
     res.render('mobile_room', json);
 });
 
+//修改房间名字
+router.post('/updateRoomName', function (req, res, next) {
+    var param = req.body;
+    liveBusiness.updateLiveName(param, (err, data)=> {
+        if (err) {
+        console.error("LiveRouter--post--updateRoomName/--error");
+        throw err;
+        }
+        if (data) {
+            res.json({"result":"success"});
+        }
+    });
+});
+
 
 module.exports = router;

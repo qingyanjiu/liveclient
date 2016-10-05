@@ -125,6 +125,17 @@ module.exports = {
         });
     },
 
+    updateLiveName: function (param, callback) {
+        LiveDao.updateLiveName(param, function (err, result) {
+            if (err) {
+                console.error("LiveBusiness--updateLiveName--updateLiveName--error");
+                callback(err, {});
+            }
+            if (result) {
+                callback(err, result);
+            }
+        });
+    },
 
 
 
