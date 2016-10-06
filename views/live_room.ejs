@@ -170,6 +170,7 @@
 
     <!-- Begin page content -->
 
+    <%if(pass=="pass" || password == null || password == ""){%>
     <div class="container" id="live">
         <div style="position: absolute;left: 50%;height:800px">
             <!-- 弹幕区域 -->
@@ -228,6 +229,17 @@
             </div>
         </div>
     </div>
+    <%}else{%>
+    <div class="container">
+        <form class="form-signin">
+            <h3 class="form-signin-heading">&nbsp;&nbsp;房间已加密</h3>
+            <input id="room_password" type="password" class="input-block-level" placeholder="请输入密码">
+            <button onClick="enterRoom()" class="btn btn-large btn-success" type="button"><i class="icon-ok icon-white"
+                                                                                            style="margin-left:-10px"></i>&nbsp;&nbsp;提交
+            </button>
+        </form>
+    </div>
+    <%}%>
 
 
     <div class="container" id="regi" style="display:none">
@@ -481,6 +493,11 @@
 
     function danmuList() {
         window.open('/live/danmuList', 'danmuList', 'height=700px,width=400px,,top=60px,left=600px,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes');
+    }
+
+    //进入加密房间
+    function enterRoom() {
+         document.location = "/live/show/<%=username%>?password="+$("#room_password").val();
     }
 
 </script>

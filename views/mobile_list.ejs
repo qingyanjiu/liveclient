@@ -36,8 +36,11 @@
                     <a href="#" class="thumbnail"
                        onclick="watchLive('<%= lives[i].streamcode %>','<%= lives[i].live_name %>','<%= lives[i].username %>')"
                        style="background-image:url('/assets/img/liveback.png');background-size:cover">
+                        <%if(lives[i].password!=null && lives[i].password!=""){%>
+                        <div style="position:absolute;background:red;color:white;padding:10px;"><i class="icon-lock icon-white"></i></div>
+                        <%}%>
                         <%if(lives[i].status == "9"){%>
-                        <div style="position:absolute;background:orange;color:white;padding:10px">正在直播</div>
+                        <div style="position:absolute;background:orange;color:white;padding:10px;margin-left:34px;">正在直播</div>
                         <%}%>
                         <img style="width: 100%; height: 160px;background-image:url(<%= snapshotUrl %><%= lives[i].streamcode %>.png);background-size:cover">
                         </img>
@@ -71,7 +74,7 @@
 
 <script type="text/javascript">
     function watchLive(streamcode, livename, username) {
-        document.location = "/live/mobile/" + streamcode + "/" + livename + "/" + username;
+        document.location = "/live/mobile/" + username;
     }
 </script>
 

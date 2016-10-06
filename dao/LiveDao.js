@@ -214,4 +214,29 @@ module.exports = {
         });
     },
 
+    //房间加密
+    updateLivePassword: function (param, callback) {
+        db.pool.getConnection(function (err, connection) {
+            var myDate = new Date();
+            if (err) {
+                console.error(myDate.toLocaleString() + "---" + err);
+                return;
+            }
+            // 建立连接，向表中插入值
+            connection.query(liveSqlMapping.updateLivePassword,
+                [
+                    param.password,
+                    param.live_id,
+                ], function (err, result) {
+                    if (err) {
+                        console.error(myDate.toLocaleString() + "---" + err);
+                        callback(err, {});
+                    }
+                    // 释放连接
+                    connection.release();
+                    callback(err, result);
+                });
+        });
+    },
+
 };

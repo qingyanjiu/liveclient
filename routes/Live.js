@@ -102,9 +102,9 @@ router.post('/end', function (req, res, next) {
 //跳转到特定用户直播界面
 router.get('/show/:username', function (req, res, next) {
     var param = req.body;
+    var password = req.query.password;
     var username = req.params.username;
     param.username = username;
-    console.log(req.params.username);
     var userid;
     var myname;
     if (req.session.userid) {
@@ -128,7 +128,19 @@ router.get('/show/:username', function (req, res, next) {
                 data[0].streamName = constants.LIVE_STREAM_NAME;
                 data[0].streamCode = data[0].streamcode;
                 data[0].myname = myname;
-                res.render('index', data[0]);
+                //如果输入了房间密码
+                data[0].pass = "unpass";
+                if(password){
+                    if(password == data[0].password) {
+                        data[0].pass = "pass";
+                        res.render('live_room', data[0]);
+                    }
+                    else
+                        res.render('live_room', data[0])
+                }
+                else {
+                    res.render('live_room', data[0]);
+                }
             }
         }
     });
@@ -201,20 +213,51 @@ router.get('/mobile/list/:type', function (req, res, next) {
 
 
 //进入移动端某用户直播间
-router.get('/mobile/:livecode/:livename/:username', function (req, res, next) {
-    var livecode = req.params.livecode;
-    var livename = req.params.livename;
-    var username = req.params.username;
-    console.log(livename);
-    var json = {
-        "title": username + '的直播间',
-        "streamUrl": constants.SERVER_URL,
-        "snapshotUrl": constants.PIC_URL,
-        "livecode": livecode,
-        "livename": livename,
-        "username": username,
-    };
-    res.render('mobile_room', json);
+router.get('/mobile/:username', function (req, res, next) {
+        var param = req.body;
+        var password = req.query.password;
+        var username = req.params.username;
+        param.username = username;
+        var userid;
+        var myname;
+        if (req.session.userid) {
+            userid = req.session.userid;
+            myname = req.session.username;
+        }
+        liveBusiness.getUserLive(param, (err, data)=> {
+            if (err) {
+            console.error("LiveRouter--get--mobile/:username--error");
+            console.error(err);
+            res.json({"error": "获取直播失败,请尝试刷新页面"});
+            // throw err;
+        }
+        if (data) {
+            if (data.length > 0) {
+                var title = data[0].username + "的直播间";
+                data[0].title = title;
+                data[0].user_id = userid;
+                data[0].username = username;
+                data[0].snapshotUrl = constants.PIC_URL;
+                data[0].streamUrl = constants.SERVER_URL;
+                data[0].livename = constants.LIVE_STREAM_NAME;
+                data[0].livecode = data[0].streamcode;
+                data[0].myname = myname;
+                //如果输入了房间密码
+                data[0].pass = "unpass";
+                if(password){
+                    if(password == data[0].password) {
+                        data[0].pass = "pass";
+                        res.render('mobile_room', data[0]);
+                    }
+                    else
+                        res.render('mobile_room', data[0])
+                }
+                else {
+                    res.render('mobile_room', data[0]);
+                }
+            }
+        }
+    });
 });
 
 //修改房间名字
@@ -222,7 +265,8 @@ router.post('/updateRoomName', function (req, res, next) {
     var param = req.body;
     liveBusiness.updateLiveName(param, (err, data)=> {
         if (err) {
-        console.error("LiveRouter--post--updateRoomName/--error");
+        console.error("LiveRouter--post--updateRoomName--error");
+        res.json({"error":"error"});
         throw err;
         }
         if (data) {
@@ -230,6 +274,22 @@ router.post('/updateRoomName', function (req, res, next) {
         }
     });
 });
+
+//修改房间密码
+router.post('/updateLivePassword', function (req, res, next) {
+    var param = req.body;
+    liveBusiness.updateLivePassword(param, (err, data)=> {
+        if (err) {
+        console.error("LiveRouter--post--updateLivePassword--error");
+        res.json({"error":"error"});
+        throw err;
+    }
+    if (data) {
+        res.json({"result":"success"});
+    }
+});
+});
+
 
 
 module.exports = router;

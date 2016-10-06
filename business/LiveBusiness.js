@@ -125,6 +125,7 @@ module.exports = {
         });
     },
 
+    //修改房间名
     updateLiveName: function (param, callback) {
         LiveDao.updateLiveName(param, function (err, result) {
             if (err) {
@@ -137,6 +138,18 @@ module.exports = {
         });
     },
 
+    //房间加密
+    updateLivePassword: function (param, callback) {
+        LiveDao.updateLivePassword(param, function (err, result) {
+            if (err) {
+                console.error("LiveBusiness--updateLivePassword--updateLiveName--error");
+                callback(err, {});
+            }
+            if (result) {
+                callback(err, result);
+            }
+        });
+    },
 
 
 };

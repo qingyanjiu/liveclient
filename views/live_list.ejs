@@ -150,6 +150,9 @@
             <li style="margin-top:40px">
                 <div style="width: 320px; height: 220px;background:#DDDDDD;text-align:center;cursor:pointer;margin-top:10px;margin-bottom:10px"
                      onclick="toLive('<%= lives[i].username %>','<%= lives[i].live_name %>')">
+                    <%if(lives[i].password!=null && lives[i].password!=""){%>
+                    <div style="position:relative;float:left;background:red;color:white;padding:10px"><i class="icon-lock icon-white"></i></div>
+                    <%}%>
                     <% if(lives[i].status == "9"){ %>
                     <div style="position:relative;float:right;background:orange;color:white;padding:10px">正在直播</div>
                     <% } %>

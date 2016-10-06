@@ -46,6 +46,7 @@ module.exports = {
                                     + "`streamcode` varchar(36) NOT NULL,"
                                     + "`status` varchar(1) NOT NULL,"
                                     + "`live_name` varchar(40) NOT NULL,"
+                                    + "`password` varchar(10) DEFAULT NULL,"
                                     + "PRIMARY KEY (`id`),"
                                     + "KEY `FK_user_id` (`user_id`),"
                                     + "CONSTRAINT `FK_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`id`)"
@@ -53,7 +54,7 @@ module.exports = {
                                         if (err) throw err
                                         //建视图
                                         connection.query(
-                                            "CREATE ALGORITHM=UNDEFINED  SQL SECURITY DEFINER VIEW `live_list` AS select `a`.`username` AS `username`,`a`.`true_name` AS `true_name`,`b`.`start_time` AS `start_time`,`b`.`streamcode` AS `streamcode`,`b`.`status` AS `status`,`b`.`live_name` AS `live_name` from (`user_info` `a` join `live_info` `b`) where (`a`.`id` = `b`.`user_id`) ;"
+                                            "CREATE ALGORITHM=UNDEFINED  SQL SECURITY DEFINER VIEW `live_list` AS select `a`.`username` AS `username`,`a`.`true_name` AS `true_name`,`b`.`start_time` AS `start_time`,`b`.`streamcode` AS `streamcode`,`b`.`status` AS `status`,`b`.`live_name` AS `live_name`,`b`.`password` AS `password` from (`user_info` `a` join `live_info` `b`) where (`a`.`id` = `b`.`user_id`) ;"
                                             , function (err, results) {
                                                 if (err) throw err
                                             })

@@ -139,7 +139,7 @@
 
         <p id="streamcode" style="color:red">
             <% if(streamcode){ %>
-            http://moku-live.daoapp.io/live/mobile/<%= streamcode %>/<%= livename %>/<%= username %>
+            http://moku-live.daoapp.io/live/mobile/<%= username %>
             <% } %>
         </p>
 
@@ -195,12 +195,12 @@
             <p id="codetip" style="font-size:14px;color:#FFFFFF">已开启直播,推流码：&nbsp;&nbsp;<span
                         id="mycode"><%= streamcode %></span>
                 <a id="roomNameButton" href="#"
-                   style="margin-left:20px;font-size:16px;color:#228b22" onclick="changeRoomName('<%= user_id %>')">改房间名
+                   style="margin-left:20px;font-size:16px;color:#228b22" onclick="changeRoomName()">改房间名
                 </a>
 
-                <!--<a id="encodeButton"  href="#"-->
-                <!--style="margin-left:20px;font-size:16px;color:#696969" onclick="encodeRoom('<%= user_id %>')">房间加密-->
-                <!--</a>-->
+                <a id="encodeButton"  href="#"
+                style="margin-left:20px;font-size:16px;color:#696969" onclick="encodeRoom()">房间加密
+                </a>
 
                 <a id="startLiveButton" href="#"
                    style="margin-left:20px;font-size:16px;color:#FF0000" onclick="endLive('<%= user_id %>')">关闭直播
@@ -433,6 +433,47 @@
                     }
                     else if(data.result == "success"){
                         swal("修改成功", "您的房间名已经修改为<" + inputValue+">", "success");
+                    }
+                },
+                //调用出错执行的函数
+                error: function (err) {
+                    alert("系统错误，请稍后再试");
+                }
+            });
+        });
+    }
+
+
+    //房间加密
+    function encodeRoom() {
+        swal({
+            title: "房间加密",
+            text: "请输入密码",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            animation: "slide-from-top",
+            inputPlaceholder: "请输入房间密码"
+        }, function (inputValue) {
+            if (inputValue === false) return false;
+            $.ajax({
+                //提交数据的类型 POST GET
+                type: "POST",
+                //提交的网址
+                url: "/live/updateLivePassword",
+                //提交的数据
+                data: {
+                    live_id: "<%=streamcode%>",
+                    password:inputValue
+                },
+                //返回数据的格式
+                datatype: "json",
+                success: function (data) {
+                    if (data.error) {
+                        alert("系统错误，请稍后再试");
+                    }
+                    else if(data.result == "success"){
+                        swal("加密成功", "您的房间密码是<" + inputValue+">", "success");
                     }
                 },
                 //调用出错执行的函数

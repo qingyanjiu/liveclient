@@ -19,13 +19,14 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
-                <a class="brand" href="#"><%=livename%></a>
+                <a class="brand" href="#"><%=title%></a>
             </div>
         </div>
     </div>
 
     <!-- Begin page content -->
 
+    <%if(pass=="pass" || password == null || password == ""){%>
     <div class="container" id="list" style="margin-top:10%">
         <div id="player" style="width:100%;">
             <script type="text/javascript">
@@ -43,8 +44,26 @@
             </script>
         </div>
     </div>
+    <%}else{%>
+    <div class="container">
+        <form class="form-signin">
+            <h3 class="form-signin-heading">&nbsp;&nbsp;房间已加密</h3>
+            <input id="room_password" type="password" class="input-block-level" placeholder="请输入密码">
+            <button onClick="enterRoom()" class="btn btn-large btn-success" type="button"><i class="icon-ok icon-white"
+                                                                                            style="margin-left:-10px"></i>&nbsp;&nbsp;提交
+            </button>
+        </form>
+    </div>
+    <%}%>
+
 </div>
 
+<script>
+    //进入加密房间
+    function enterRoom() {
+        document.location = "/live/mobile/<%=username%>?password="+$("#room_password").val();
+    }
+</script>
 
 <!-- Le javascript
 ================================================== -->
