@@ -156,7 +156,7 @@
                             <% if(!user_id){ %>
                             <a href="#login" onClick="toggleMenu('3')">登录我的账号</a>
                             <% }else{ %>
-                            <a href="#usercenter">
+                            <a href="/live">
                                 <img src="/assets/img/head.jpg"
                                      style="height:20px;width:20px;border-radius: 10px"/>&nbsp;<%= myname %>
                             </a>
@@ -230,7 +230,7 @@
         </div>
     </div>
     <%}else{%>
-    <div class="container">
+    <div class="container" id="cont">
         <form class="form-signin">
             <h3 class="form-signin-heading">&nbsp;&nbsp;房间已加密</h3>
             <input id="room_password" type="password" class="input-block-level" placeholder="请输入密码">
