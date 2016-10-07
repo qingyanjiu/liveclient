@@ -33,17 +33,24 @@
             <% for(i = 0;i < lives.length;i++){ %>
             <div class="span12">
                 <li class="span12">
-                    <a href="#" class="thumbnail"
-                       onclick="watchLive('<%= lives[i].streamcode %>','<%= lives[i].live_name %>','<%= lives[i].username %>')"
-                       style="background-image:url('/assets/img/liveback.png');background-size:cover">
+                    <!--<a href="#" class="thumbnail"-->
+                    <a href="#"
+                       onclick="watchLive('<%= lives[i].streamcode %>','<%= lives[i].live_name %>','<%= lives[i].username %>')">
                         <%if(lives[i].password!=null && lives[i].password!=""){%>
                         <div style="position:absolute;background:red;color:white;padding:10px;"><i class="icon-lock icon-white"></i></div>
-                        <%}%>
                         <%if(lives[i].status == "9"){%>
                         <div style="position:absolute;background:orange;color:white;padding:10px;margin-left:34px;">正在直播</div>
                         <%}%>
-                        <img style="width: 100%; height: 160px;background-image:url(<%= snapshotUrl %><%= lives[i].streamcode %>.png);background-size:cover">
+                        <%}else{%>
+                        <%if(lives[i].status == "9"){%>
+                        <div style="position:absolute;background:orange;color:white;padding:10px;">正在直播</div>
+                        <%}}%>
+                        <!--<img style="width: 100%; height: 160px;background-image:url(<%= snapshotUrl %><%= lives[i].streamcode %>.png);background-size:cover;">-->
+                        <!--</img>-->
+                        <div style="width: 100%; height: 180px;text-align: center;background:#000000">
+                        <img src="<%= snapshotUrl %><%= lives[i].streamcode %>.png" style="width: 320px; height: 180px;">
                         </img>
+                        </div>
                     </a>
                 </li>
                 <p class="span12" style="padding:6px;font-size:14px;color:#555555;text-align:center"><%= lives[i].live_name %>
