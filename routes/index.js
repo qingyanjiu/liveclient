@@ -30,7 +30,7 @@ router.get('/', function (req, res, next) {
             }
             else {
                 var json = {
-                    "title": 'PRIVATE直播',
+                    "title": 'MokuLive',
                     "streamUrl": constants.SERVER_URL,
                     "streamName": "live",
                     "streamCode": null,

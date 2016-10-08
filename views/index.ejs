@@ -9,31 +9,16 @@
 
     <!-- CSS -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet">
+
+    <!--<link rel="stylesheet" type="text/css" href="/home_page/css/normalize.css" />-->
+    <!--<link rel="stylesheet" type="text/css" href="/home_page/css/demo.css" />-->
+    <!--<link rel="stylesheet" type="text/css" href="/home_page/css/component.css" />-->
+
+    <link rel="stylesheet" type="text/css" href="/home_page2/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/home_page2/css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="/home_page2/css/component.css" />
+
     <style type="text/css">
-        .dm {
-            width: 100%;
-            height: 100%;
-            border: 1px solid #000
-        }
-
-        .dm .d_screen .d_mask {
-            width: 100%;
-            height: 500px;
-            background: #000;
-            opacity: 0;
-            /*filter: alpha(opacity=50);*/
-            z-index: 1;
-        }
-
-        .dm .d_screen .d_show div {
-            font-size: 22px;
-            line-height: 36px;
-            font-weight: 500;
-            color: #fff;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
 
         /* Sticky footer styles
         -------------------------------------------------- */
@@ -80,7 +65,7 @@
 
         .container {
             width: auto;
-            max-width: 680px;
+            max-width: 100%;
         }
 
         .container .credit {
@@ -130,7 +115,7 @@
     <link rel="shortcut icon" href="/assets/ico/favicon.png">
 </head>
 
-<body style="overflow: hidden">
+<body>
 
 
 <!-- Part 1: Wrap all page content here -->
@@ -170,61 +155,20 @@
 
     <!-- Begin page content -->
 
-    <div class="container" id="live">
-        <div style="position: absolute;left: 50%;height:800px">
-            <!-- 弹幕区域 -->
-            <main id="main"
-                  style="width:975px;height:500px;line-height: 25px;margin: 0 5px;float: left;position: absolute;right: 50%;padding-top:80px;z-index:1;">
-                <div style="text-align:center;margin-top:10px">
-                    <div class="dm" style="border:0;">
-                        <div class="d_screen" style="border: 1px solid rgba(229, 229, 229,0);">
-                            <div class="d_mask" style="background:#fff"></div>
-                            <div class="d_show">
-                                <!-- <div>text message</div>  -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-            <!-- 弹幕区域 -->
+    <!--<div class="container demo-3" id="live" style="width:100% ">-->
+        <!--<div class="content">-->
+            <!--<div id="large-header" class="large-header">-->
+                <!--<canvas id="demo-canvas"></canvas>-->
+                <!--<h1 class="main-title"><span><%=title%></span></h1>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
-            <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:60px">
-                <script type="text/javascript"
-                        src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamCode %>&autostart=true&buffer=5
-                        &lang=zh_CN
-                        &logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png
-                        &poster=/assets/img/liveback.jpg
-                        <% if(live_name){ %>
-                        &title=<%= live_name %>
-                        <% } %>
-                        &skin=liveWhite">
-                </script>
-                <% if(live_name && username){ %>
-                <div style="background-color: rgba(255,255,255,0.2);height:50px">
-                    <p style="font-size:16px;color:#FFFFFF;text-align:center;padding:10px">
-                        <%= live_name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        用户:<%= username %>
-                        <span style="margin-left:40px" id="infobar"></span>
-                    </p>
-                </div>
-                <% } %>
-                <br/>
-                <div class="send" style="text-align:center">
-                    <input placeholder="说点什么?" class="s_txt" type="text" style="width:388px;
-                                      height: 34px;
-                                      border-radius: 3px;
-                                      border: 1px solid rgb(204, 204, 204);
-                                      padding-left: 10px;"/>
-                    <input type="button" value="发送弹幕" class="s_sub" style="border: 1px solid rgb(210, 80, 30);color:rgb(230, 80, 30);
-                                      border-radius: 3px;
-                                      text-align: center;
-                                      height: 45px;
-                                      margin-left:10px;
-                                      margin-bottom:10px;
-                                      line-height: 35px;
-                                      font-weight:bold;
-                                      font-size: 14px;width:159px;background-color:white"/>
-                </div>
+    <div class="container demo-1" id="live" style="width:100%">
+        <div class="content">
+            <div id="large-header" class="large-header">
+                <canvas id="demo-canvas"></canvas>
+                <h2 class="main-title"><span class="thin" style="background:rgba(0,0,0,0.6);border-radius: 60px;padding:6px 40px"><%=title%></span></h2>
             </div>
         </div>
     </div>
@@ -271,7 +215,19 @@
 
 <!-- Le javascript
 ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
+ Placed at the end of the document so the pages load faster
+<script src="/home_page2/js/TweenLite.min.js"></script>
+<script src="/home_page2/js/EasePack.min.js"></script>
+<script src="/home_page2/js/rAF.js"></script>
+<script src="/home_page2/js/demo-1.js"></script>
+<script src="/home_page2/js/jquery.min.js"></script>
+
+<!--<script src="/home_page/js/TweenLite.min.js"></script>-->
+<!--<script src="/home_page/js/EasePack.min.js"></script>-->
+<!--<script src="/home_page/js/rAF.js"></script>-->
+<!--<script src="/home_page/js/demo-3.js"></script>-->
+<!--<script src="/home_page/js/jquery.min.js"></script>-->
+
 <script src="/assets/js/jquery.js"></script>
 <script src="/assets/js/bootstrap-transition.js"></script>
 <script src="/assets/js/bootstrap-alert.js"></script>
@@ -372,112 +328,6 @@
         });
     }
 
-
-    //关于弹幕
-    $(document).ready(function () {
-        var config = {
-            authDomain: "qingyanjiu.wilddog.com",
-            syncURL: "https://qingyanjiu.wilddogio.com"
-        };
-        wilddog.initializeApp(config);
-        var ref = wilddog.sync().ref();
-        var arr = [];
-
-        $(".s_sub").click(function () {
-            //把弹幕内容和服务器时间戳写入野狗数据库
-            var text = $(".s_txt").val();
-            var time = wilddog.sync().ServerValue.TIMESTAMP;
-            if ('<%= streamCode %>') {
-                ref.child('<%= streamCode %>').push({"msg": text, "time": time});
-                $(".s_txt").val('');
-            }
-
-        });
-
-        $(".s_txt").keypress(function (event) {
-            if (event.keyCode == "13") {
-                $(".s_sub").trigger('click');
-            }
-        });
-
-
-        if ('<%= streamCode %>') {
-            ref.child('<%= streamCode %>').limitToLast(1).on('child_added', function (snapshot) {
-                var text = snapshot.val();
-                //只有时间戳值大于服务器当前时间的弹幕才显示,本地时间有点差距 加个10秒钟的延迟，问题不大了
-                if (text.time >= new Date().getTime() - 10000) {
-                    arr.push(text.msg);
-                    var textObj = $("<div class=\"dm_message\"></div>");
-                    textObj.text(text.msg);
-                    $(".d_show").append(textObj);
-                    moveObj(textObj);
-                }
-            });
-        }
-
-        var topMin = $('.d_mask').offset().top;
-        var topMax = topMin + $('.d_mask').height();
-        var _top = topMin;
-
-        var moveObj = function (obj) {
-            var _left = $('.d_mask').width() - obj.width();
-            _top = _top + 50;
-            if (_top > (topMax - 50)) {
-                _top = topMin;
-            }
-            obj.css({left: _left, top: _top, color: getReandomColor()});
-//            var time = 20000 + 10000 * Math.random();
-            var time = 10000;
-            obj.animate({left: "-20px"}, time, function () {
-                obj.remove();
-            });
-        }
-
-        var getReandomColor = function () {
-            return '#' + (function (h) {
-                        return new Array(7 - h.length).join("0") + h
-                    })((Math.random() * 0x1000000 << 0).toString(16))
-        }
-
-//        var getAndRun = function() {
-//            if (arr.length > 0) {
-//                var n = Math.floor(Math.random() * arr.length + 1) - 1;
-//                var textObj = $("<div>" + arr[n] + "</div>");
-//                $(".d_show").append(textObj);
-//                moveObj(textObj);
-//            }
-//
-//            setTimeout(getAndRun, 3000);
-//        }
-//
-//        jQuery.fx.interval = 50;
-//        getAndRun();
-
-        setInterval('getSubs()', 5000);
-
-    });
-
-    function getSubs() {
-        $.ajax({
-            //提交数据的类型 POST GET
-            type: "POST",
-            //提交的网址
-            url: "/live/viewerCount",
-            //提交的数据
-            data: {
-                streamCode: "<%= streamCode %>"
-            },
-            //返回数据的格式
-            datatype: "json",
-            success: function (data) {
-                $("#infobar").html("当前观众  " + data.count + "人");
-            },
-            //调用出错执行的函数
-            error: function () {
-                //
-            }
-        });
-    }
 
     function danmuList() {
         window.open('/live/danmuList', 'danmuList', 'height=700px,width=400px,,top=60px,left=600px,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes');
