@@ -21,7 +21,8 @@ module.exports = {
                 param.end_time,
                 param.streamcode,
                 param.status,
-                param.live_name
+                param.live_name,
+                param.password
             ], function (err, result) {
                 if (err) {
                     console.error("addLive--" + myDate.toLocaleString() + "---" + err);

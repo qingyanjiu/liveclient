@@ -20,7 +20,7 @@ module.exports = {
             param.status = constants.LIVE_STATUS_STARTED;
             param.start_time = dateTime;
             param.streamcode = guid.create();
-
+            param.password = null;
             if (err) {
                 console.error("LiveBusiness--startLive--deleteLive--error");
                 callback(err, {});

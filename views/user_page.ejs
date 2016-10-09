@@ -139,7 +139,7 @@
 
         <p id="streamcode" style="color:red">
             <% if(streamcode){ %>
-            http://moku-live.daoapp.io/live/mobile/<%= username %>
+            <%=webClientUrl%>/live/mobile/<%= username %>
             <% } %>
         </p>
 
@@ -147,7 +147,7 @@
 
         <p id="streamcode" style="color:red">
             <% if(streamcode){ %>
-            http://moku-live.daoapp.io/live/show/<%= username %>
+            <%=webClientUrl%>/live/show/<%= username %>
             <% } %>
         </p>
     </div>

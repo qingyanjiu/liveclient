@@ -11,6 +11,8 @@ WORKDIR /srs-client/
 
 #RUN echo -n "108.61.182.153" > conf/ServerIp
 
+#RUN echo -n "http://moku-live.daoapp.io" > conf/WebClientIp
+
 RUN npm install
 
 RUN npm install -g supervisor
