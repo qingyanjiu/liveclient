@@ -47,4 +47,15 @@ router.post('/register', function(req, res, next) {
   });
 });
 
+
+router.post('/logout', function(req, res, next) {
+    var param = req.body;
+    req.session.username = null;
+    req.session.userid = null;
+    //同步到sessionstore里
+    req.session.save();
+    console.log(req.session.username + "----" + req.session.userid);
+    res.json({result: 'success'});
+});
+
 module.exports = router;

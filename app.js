@@ -110,9 +110,10 @@ app.use(function (req, res, next) {
             //初始化数据库的相关请求，不会被过滤
             && url != "/init"
             && url != "/initDatabase"
-            //用户登录注册请求不会被过滤
+            //用户登录注册、注销请求不会被过滤
             && url != "/user/login"
             && url != "/user/register"
+            && url != "/user/login"
             //查看直播列表请求，不会被过滤
             && url != "/live/list"
             //跳转到某个用户直播间的请求，不会被过滤
