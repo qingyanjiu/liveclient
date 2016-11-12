@@ -7,7 +7,7 @@ var constants = {
     TITLE: "木木直播",
 
     //数据库别名或者ip地址
-    DB_ALIA: dbip,
+    DB_ALIA: dbip.trim(),
 
     //预览图片前缀
     PIC_URL: "http://" + serverip.trim() + ":8099/",
