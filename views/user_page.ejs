@@ -105,6 +105,10 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="/assets/ico/favicon.png">
+
+
+    <link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/1.5.2/skins/default/index-min.css" />
+    <script type="text/javascript" src="http://g.alicdn.com/de/prismplayer/1.5.2/prism-min.js"></script>
 </head>
 
 <body style="overflow: hidden">
@@ -220,13 +224,26 @@
         </div>
         <div style="position: absolute;left: 50%;height:800px">
             <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:20px">
-                <script type="text/javascript"
-                        src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamcode %>&autostart=true&buffer=5
-                        &lang=zh_CN
-                        &logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png
-                        &poster=/assets/img/liveback.jpg
-                        &title=
-                        &skin=liveWhite">
+                <!--<script type="text/javascript"-->
+                        <!--src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamcode %>&autostart=true&buffer=5-->
+                        <!--&lang=zh_CN-->
+                        <!--&logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png-->
+                        <!--&poster=/assets/img/liveback.jpg-->
+                        <!--&title=-->
+                        <!--&skin=liveWhite">-->
+                <!--</script>-->
+
+                <div class="prism-player" id="J_prismPlayer"></div>
+                <script>
+                    var player = new prismplayer({
+                        id: "J_prismPlayer", // 容器id
+                        source: "rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamcode %>",  // 视频url 支持互联网可直接访问的视频地址
+                        autoplay: true,      // 自动播放
+                        width: "100%",       // 播放器宽度
+                        height: "500px",     // 播放器高度
+                        isLive:true,
+                        showBarTime:"500"
+                    });
                 </script>
             </div>
         </div>

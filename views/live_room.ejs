@@ -128,6 +128,10 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="/assets/ico/favicon.png">
+
+
+    <link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/1.5.2/skins/default/index-min.css" />
+    <script type="text/javascript" src="http://g.alicdn.com/de/prismplayer/1.5.2/prism-min.js"></script>
 </head>
 
 <body style="overflow: hidden">
@@ -175,11 +179,11 @@
         <div style="position: absolute;left: 50%;height:800px">
             <!-- 弹幕区域 -->
             <main id="main"
-                  style="width:975px;height:500px;line-height: 25px;margin: 0 5px;float: left;position: absolute;right: 50%;padding-top:80px;z-index:1;">
+                  style="width:975px;height:400px;line-height: 25px;margin: 0 5px;float: left;position: absolute;right: 50%;padding-top:80px;z-index:1;">
                 <div style="text-align:center;margin-top:10px">
                     <div class="dm" style="border:0;">
                         <div class="d_screen" style="border: 1px solid rgba(229, 229, 229,0);">
-                            <div class="d_mask" style="background:#fff"></div>
+                            <div class="d_mask" style="background:#fff;height:400px"></div>
                             <div class="d_show">
                                 <!-- <div>text message</div>  -->
                             </div>
@@ -190,15 +194,28 @@
             <!-- 弹幕区域 -->
 
             <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:60px">
-                <script type="text/javascript"
-                        src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamCode %>&autostart=true
-                        &lang=zh_CN
-                        &logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png
-                        &poster=/assets/img/liveback.jpg
-                        <% if(live_name){ %>
-                        &title=<%= live_name %>
-                        <% } %>
-                        &skin=liveWhite">
+                <!--<script type="text/javascript"-->
+                        <!--src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamCode %>&autostart=true-->
+                        <!--&lang=zh_CN-->
+                        <!--&logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png-->
+                        <!--&poster=/assets/img/liveback.jpg-->
+                        <!--<% if(live_name){ %>-->
+                        <!--&title=<%= live_name %>-->
+                        <!--<% } %>-->
+                        <!--&skin=liveWhite">-->
+                <!--</script>-->
+
+                <div class="prism-player" id="J_prismPlayer"></div>
+                <script>
+                    var player = new prismplayer({
+                        id: "J_prismPlayer", // 容器id
+                        source: "rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamCode %>",  // 视频url 支持互联网可直接访问的视频地址
+                        autoplay: true,      // 自动播放
+                        width: "100%",       // 播放器宽度
+                        height: "500px",      // 播放器高度
+                        isLive:true,
+                        showBarTime:"500"
+                    });
                 </script>
                 <% if(live_name && username){ %>
                 <div style="background-color: rgba(255,255,255,0.2);height:50px">
