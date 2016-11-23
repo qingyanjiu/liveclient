@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSS -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        .dm {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #000
+        }
+
+        .dm .d_screen .d_mask {
+            width: 100%;
+            height: 500px;
+            background: #000;
+            opacity: 0;
+            /*filter: alpha(opacity=50);*/
+            z-index: 1;
+        }
+
+        .dm .d_screen .d_show div {
+            font-size: 22px;
+            line-height: 36px;
+            font-weight: 500;
+            color: #fff;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* Sticky footer styles
+        -------------------------------------------------- */
+
+        html,
+        body {
+            height: 100%;
+            font-family: "微软雅黑"
+            /* The html and body elements cannot have any padding or margin. */
+        }
+
+        /* Wrapper for page content to push down footer */
+        #wrap {
+            min-height: 100%;
+            height: auto !important;
+            height: 100%;
+            /* Negative indent footer by it's height */
+            margin: 0 auto -60px;
+        }
+
+        /* Set the fixed height of the footer here */
+        #push,
+        #footer {
+            height: 60px;
+        }
+
+        #footer {
+            background-color: rgba(235, 235, 235, 0.6);
+        }
+
+        /* Lastly, apply responsive CSS fixes as necessary */
+        @media (max-width: 767px) {
+            #footer {
+                margin-left: -20px;
+                margin-right: -20px;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        /* Custom page CSS
+        -------------------------------------------------- */
+        /* Not required for template or sticky footer method. */
+
+        .container {
+            width: auto;
+            max-width: 680px;
+        }
+
+        .container .credit {
+            margin: 20px 0;
+        }
+
+        .form-signin {
+            max-width: 300px;
+            padding: 10px 29px 29px;
+            margin: 200px auto 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 1px solid #e5e5e5;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
+
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+
+        .form-signin input[type="text"],
+        .form-signin input[type="password"] {
+            font-size: 18px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 10px 10px;
+        }
+
+    </style>
+    <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="/assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/assets/ico/favicon.png">
+
+
+    <link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/1.5.2/skins/default/index-min.css" />
+    <script type="text/javascript" src="http://g.alicdn.com/de/prismplayer/1.5.2/prism-min.js"></script>
+</head>
+
+<body style="overflow: hidden">
+
+
+<!-- Part 1: Wrap all page content here -->
+<div id="wrap" style="background-image:url('/assets/img/back.jpg');background-size:'contain';">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="#"><%= title %></a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="#" onClick="toggleMenu('0')">直播列表</a></li>
+                        <% if(!user_id){ %>
+                        <li><a href="#register" onClick="toggleMenu('1')">新用户注册</a></li>
+                        <% } else{ %>
+                        <li><a href="#myroom" onClick="toggleMenu('2')">我只想看弹幕</a></li>
+                        <% } %>
+                        <li id="userTip">
+                            <% if(!user_id){ %>
+                            <a href="#login" onClick="toggleMenu('3')">登录我的账号</a>
+                            <% }else{ %>
+                            <a href="/live">
+                                <img src="/assets/img/head.jpg"
+                                     style="height:20px;width:20px;border-radius: 10px"/>&nbsp;<%= myname %>
+                            </a>
+                            <% } %>
+                        </li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Begin page content -->
+
+    <%if(pass=="pass" || password == null || password == ""){%>
+    <div class="container" id="live">
+        <div style="position: absolute;left: 50%;height:800px">
+            <!-- 弹幕区域 -->
+            <main id="main"
+                  style="width:975px;height:400px;line-height: 25px;margin: 0 5px;float: left;position: absolute;right: 50%;padding-top:80px;z-index:1;">
+                <div style="text-align:center;margin-top:10px">
+                    <div class="dm" style="border:0;">
+                        <div class="d_screen" style="border: 1px solid rgba(229, 229, 229,0);">
+                            <div class="d_mask" style="background:#fff;height:400px"></div>
+                            <div class="d_show">
+                                <!-- <div>text message</div>  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- 弹幕区域 -->
+
+            <div style="width:1000px;height:560px;line-height: 25px;margin: 0 5px;float: left;position: relative;right: 50%;padding-top:60px">
+                <!--<script type="text/javascript"-->
+                <!--src="/player/sewise.player.min.js?server=live&type=rtmp&streamurl=rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamCode %>&autostart=true-->
+                <!--&lang=zh_CN-->
+                <!--&logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png-->
+                <!--&poster=/assets/img/liveback.jpg-->
+                <!--<% if(live_name){ %>-->
+                <!--&title=<%= live_name %>-->
+                <!--<% } %>-->
+                <!--&skin=liveWhite">-->
+                <!--</script>-->
+
+                <div class="prism-player" id="J_prismPlayer"></div>
+                <script>
+                    var player = new prismplayer({
+                        id: "J_prismPlayer", // 容器id
+                        source: "rtmp://<%= streamUrl %>/<%= streamName %>/<%= streamCode %>",  // 视频url 支持互联网可直接访问的视频地址
+                        autoplay: true,      // 自动播放
+                        width: "100%",       // 播放器宽度
+                        height: "500px",      // 播放器高度
+                        isLive:true,
+                        showBarTime:"500"
+                    });
+                </script>
+                <% if(live_name && username){ %>
+                <div style="background-color: rgba(255,255,255,0.2);height:50px">
+                    <p style="font-size:16px;color:#FFFFFF;text-align:center;padding:10px">
+                        <%= live_name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        用户:<%= username %>
+                        <span style="margin-left:40px" id="infobar"></span>
+                    </p>
+                </div>
+                <% } %>
+                <br/>
+                <div class="send" style="text-align:center">
+                    <input placeholder="说点什么?" class="s_txt" type="text" style="width:388px;
+                                      height: 34px;
+                                      border-radius: 3px;
+                                      border: 1px solid rgb(204, 204, 204);
+                                      padding-left: 10px;"/>
+                    <input type="button" value="发送弹幕" class="s_sub" style="border: 1px solid rgb(210, 80, 30);color:rgb(230, 80, 30);
+                                      border-radius: 3px;
+                                      text-align: center;
+                                      height: 45px;
+                                      margin-left:10px;
+                                      margin-bottom:10px;
+                                      line-height: 35px;
+                                      font-weight:bold;
+                                      font-size: 14px;width:159px;background-color:white"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%}else{%>
+    <div class="container" id="cont">
+        <form class="form-signin">
+            <h3 class="form-signin-heading">&nbsp;&nbsp;房间已加密</h3>
+            <input id="room_password" type="password" class="input-block-level" placeholder="请输入密码">
+            <button onClick="enterRoom()" class="btn btn-large btn-success" type="button"><i class="icon-ok icon-white"
+                                                                                             style="margin-left:-10px"></i>&nbsp;&nbsp;提交
+            </button>
+        </form>
+    </div>
+    <%}%>
+
+
+    <div class="container" id="regi" style="display:none">
+        <form class="form-signin">
+            <h3 class="form-signin-heading">&nbsp;&nbsp;用户注册</h3>
+            <input id="register_username" type="text" class="input-block-level" placeholder="账号">
+            <input id="register_password" type="password" class="input-block-level" placeholder="密码">
+            <button onClick="register()" class="btn btn-large btn-success" type="button"><i class="icon-ok icon-white"
+                                                                                            style="margin-left:-10px"></i>&nbsp;&nbsp;注册
+            </button>
+        </form>
+    </div>
+
+    <div class="container" id="login" style="display:none">
+        <form class="form-signin">
+            <h3 class="form-signin-heading">&nbsp;&nbsp;用户登录</h3>
+            <input id="username" type="text" class="input-block-level" placeholder="邮箱/账号/手机号">
+            <input id="password" type="password" class="input-block-level" placeholder="密码">
+            <label class="checkbox" style="font-size:16px">
+                <input type="checkbox" value="remember-me"> 记住我
+            </label>
+            <button onClick="login()" class="btn btn-large btn-success" type="button"><i class="icon-ok icon-white"
+                                                                                         style="margin-left:-10px"></i>&nbsp;&nbsp;登录
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<div id="footer">
+    <div class="container">
+        <p class="muted credit" style="color:#000000">PRIVATE直播&nbsp;&nbsp;&nbsp;&nbsp; <a
+                    href="#" style="color:#333333">Louis.L</a></p>
+    </div>
+</div>
+
+
+<script src="https://cdn.wilddog.com/sdk/js/2.0.0/wilddog-auth.js"></script>
+<script src="https://cdn.wilddog.com/sdk/js/2.0.0/wilddog-sync.js"></script>
+<!--<script src="https://cdn.wilddog.com/js/vendor/jquery-1.11.2.min.js"></script>-->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/bootstrap-transition.js"></script>
+<script src="/assets/js/bootstrap-alert.js"></script>
+<script src="/assets/js/bootstrap-modal.js"></script>
+<script src="/assets/js/bootstrap-dropdown.js"></script>
+<script src="/assets/js/bootstrap-scrollspy.js"></script>
+<script src="/assets/js/bootstrap-tab.js"></script>
+<script src="/assets/js/bootstrap-tooltip.js"></script>
+<script src="/assets/js/bootstrap-popover.js"></script>
+<script src="/assets/js/bootstrap-button.js"></script>
+<script src="/assets/js/bootstrap-collapse.js"></script>
+<script src="/assets/js/bootstrap-carousel.js"></script>
+<script src="/assets/js/bootstrap-typeahead.js"></script>
+
+<script type="text/javascript">
+    function toggleMenu(obj) {
+        if (obj == '0') {
+            document.location = "/live/list";
+        }
+        else if (obj == '1') {
+            $("#login").hide();
+            $("#live").hide();
+            $("#regi").show();
+            $("#cont").hide();
+        }
+        else if (obj == '2') {
+            danmuList();
+        }
+        else if (obj == '3') {
+            $("#login").show();
+            $("#live").hide();
+            $("#regi").hide();
+            $("#cont").hide();
+        }
+    }
+
+
+    function login() {
+        $.ajax({
+            //提交数据的类型 POST GET
+            type: "POST",
+            //提交的网址
+            url: "/user/login",
+            //提交的数据
+            data: {username: $("#username").val(), password: $("#password").val()},
+            //返回数据的格式
+            datatype: "json",
+            //"xml", "html", "script", "json", "jsonp", "text".
+            success: function (data) {
+                if (data.result == 'success') {
+//                    alert("登录成功");
+                    document.location.href = "/live";
+                }
+                else if (data.result == 'empty') {
+                    alert("用户名或密码错误");
+                }
+                else if (data.result == 'error') {
+                    alert("登录出错，请重试");
+                }
+            },
+            //调用出错执行的函数
+            error: function () {
+                alert("系统错误，请稍后重试");
+            }
+        });
+    }
+
+
+    function register() {
+        $.ajax({
+            //提交数据的类型 POST GET
+            type: "POST",
+            //提交的网址
+            url: "/user/register",
+            //提交的数据
+            data: {
+                username: $("#register_username").val(),
+                password: $("#register_password").val()
+            },
+            //返回数据的格式
+            datatype: "json",
+            success: function (data) {
+                if (data.result == 'success') {
+                    alert("注册成功");
+
+                }
+                else if (data.result == 'exist') {
+                    alert("用户已存在");
+                }
+                else if (data.result == 'error') {
+                    alert("注册出错，请重试");
+                }
+            },
+            //调用出错执行的函数
+            error: function () {
+                alert("系统错误，请稍后重试");
+            }
+        });
+    }
+
+
+    //关于弹幕
+    $(document).ready(function () {
+        var config = {
+            authDomain: "qingyanjiu.wilddog.com",
+            syncURL: "https://qingyanjiu.wilddogio.com"
+        };
+        wilddog.initializeApp(config);
+        var ref = wilddog.sync().ref();
+        var arr = [];
+
+        $(".s_sub").click(function () {
+            //把弹幕内容和服务器时间戳写入野狗数据库
+            var text = $(".s_txt").val();
+            var time = wilddog.sync().ServerValue.TIMESTAMP;
+            if ('<%= streamCode %>') {
+                ref.child('<%= streamCode %>').push({"msg": text, "time": time});
+                $(".s_txt").val('');
+            }
+
+        });
+
+        $(".s_txt").keypress(function (event) {
+            if (event.keyCode == "13") {
+                $(".s_sub").trigger('click');
+            }
+        });
+
+
+        if ('<%= streamCode %>') {
+            ref.child('<%= streamCode %>').limitToLast(1).on('child_added', function (snapshot) {
+                var text = snapshot.val();
+                //只有时间戳值大于服务器当前时间的弹幕才显示,本地时间有点差距 加个10秒钟的延迟，问题不大了
+                if (text.time >= new Date().getTime() - 10000) {
+                    arr.push(text.msg);
+                    var textObj = $("<div class=\"dm_message\"></div>");
+                    textObj.text(text.msg);
+                    $(".d_show").append(textObj);
+                    moveObj(textObj);
+                }
+            });
+        }
+
+        var topMin = $('.d_mask').offset().top;
+        var topMax = topMin + $('.d_mask').height();
+        var _top = topMin;
+
+        var moveObj = function (obj) {
+            var _left = $('.d_mask').width() - obj.width();
+            _top = _top + 50;
+            if (_top > (topMax - 50)) {
+                _top = topMin;
+            }
+            obj.css({left: _left, top: _top, color: getReandomColor()});
+//            var time = 20000 + 10000 * Math.random();
+            var time = 10000;
+            obj.animate({left: "-20px"}, time, function () {
+                obj.remove();
+            });
+        }
+
+        var getReandomColor = function () {
+            return '#' + (function (h) {
+                        return new Array(7 - h.length).join("0") + h
+                    })((Math.random() * 0x1000000 << 0).toString(16))
+        }
+
+//        var getAndRun = function() {
+//            if (arr.length > 0) {
+//                var n = Math.floor(Math.random() * arr.length + 1) - 1;
+//                var textObj = $("<div>" + arr[n] + "</div>");
+//                $(".d_show").append(textObj);
+//                moveObj(textObj);
+//            }
+//
+//            setTimeout(getAndRun, 3000);
+//        }
+//
+//        jQuery.fx.interval = 50;
+//        getAndRun();
+
+        setInterval('getSubs()', 5000);
+
+    });
+
+    function getSubs() {
+        $.ajax({
+            //提交数据的类型 POST GET
+            type: "POST",
+            //提交的网址
+            url: "/live/viewerCount",
+            //提交的数据
+            data: {
+                streamCode: "<%= streamCode %>"
+            },
+            //返回数据的格式
+            datatype: "json",
+            success: function (data) {
+                $("#infobar").html("当前观众  " + data.count + "人");
+            },
+            //调用出错执行的函数
+            error: function () {
+                //
+            }
+        });
+    }
+
+    function danmuList() {
+        window.open('/live/danmuList', 'danmuList', 'height=700px,width=400px,,top=60px,left=600px,status=no,toolbar=no,menubar=no,location=no,scrollbars=yes');
+    }
+
+    //进入加密房间
+    function enterRoom() {
+        document.location = "/live/show/<%=username%>?password="+$("#room_password").val();
+    }
+
+</script>
+
+</body>
+</html>
